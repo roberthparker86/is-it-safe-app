@@ -1,3 +1,25 @@
-// FONT STYLES
-$font-header: sans-serif;
-$font-body: sans-serif;
+//* FONT VARIABLES
+// Families
+$font-header: 'Inter', sans-serif;
+$font-body: 'Roboto', sans-serif;
+
+// Sizes
+$font-desktop-sm: 1.4rem;
+$font-desktop-md: 2.2rem;
+$font-desktop-lg: 3rem;
+$font-desktop-xlg: 3.8rem;
+
+// Weights
+$font-heading-reg: 300;
+$font-body-reg: 500;
+$font-body-bold: 700;
+$font-heading-bold: 600;
+
+//* COLORS
+$color-black: darken(#272727, 10%);
+$color-dark-grey: #272727;
+$color-grey: #747474;
+$color-orange: #ff652f;
+$color-yellow: #ffe400;
+$color-green: #14a76c;
+$color-off-white: darken(white, 15%);
