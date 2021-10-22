@@ -6,6 +6,11 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "immer": "^9.0.6",
+    "mongoose": "^6.0.11",
     "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -17,7 +22,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-		"compile:sass": "node-sass src/sass/main.scss public/styles/styles.css -w"
+    "compile:sass": "node-sass src/sass/main.scss public/styles/styles.css -w"
   },
   "eslintConfig": {
     "extends": [
