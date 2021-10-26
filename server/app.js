@@ -2,12 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { response } = require('express');
-// const db = require('./db/index.js');
+const db = require('./config/db.js');
+const userRoutes = require('./api/userRoutes');
 
 const app = express();
 
 let port = process.env.PORT;
-if (port === null || port === "") {
+if (port === null || port === "" || port === undefined) {
     port = 3000;
 }
 
@@ -20,5 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.send('Client successfully connected. WOOT');
 });
+
+app.use('/api', userRoutes);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
