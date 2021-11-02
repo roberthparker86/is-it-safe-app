@@ -4,24 +4,12 @@ const User = require('../models/userData');
 // create user ops
 const createUser = (req, res) => {
     const user = new User({
-        firstName: "Robert",
-        lastName: "Theguy",
-        username: "ThatOneGuy",
-        password: "thatPassword",
-        refrigerator: [
-            {
-                name: "Das food item",
-                startTime: 42,
-                expireTime: 42
-            }
-        ],
-        freezer: [
-            {
-                name: "Das frozen food item",
-                startTime: 43,
-                expireTime: 48
-            }
-        ]
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        username: req.body.username,
+        password: req.body.password,
+        refrigerator: [],
+        freezer: []
     });
 
     if (!user) {
@@ -33,7 +21,6 @@ const createUser = (req, res) => {
 
     user.save()
         .then(() => {
-            console.log(`This is the then branch: \n ${res}`);
             return res.status(201).json({
                 success: true,
                 id: user._id,
