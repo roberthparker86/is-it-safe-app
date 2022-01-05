@@ -6,18 +6,14 @@ const addFoodValidate = (req, res) => {
     validateType = (expected, actual) => (expected === typeof actual);
   let message = '';
 
-  console.log(data);
-
   for (key in data) {
-
-    console.log(key);
     
     if ( key === "startTime" || key === "expireTime" ) {
 
       let convertedString = Number(data[key]);
 
-      if ( convertedString.toString() === 'NaN' ) {
-        message = `${key} must be a number`;
+      if ( (convertedString.toString() === 'NaN') || (convertedString <= 0) ) {
+        message = `${key} must be a number greater than 0`;
         return res.status(400).send({ message });
       } 
     }
@@ -39,12 +35,17 @@ const addFoodValidate = (req, res) => {
     }
   };
 
+  if ( Number(data.startTime) >= Number(data.expireTime) ) {
+    message = `startTime must be less than expireTime`;
+    return res.status(400).send({ message });
+  }
+
   if (message !== '') {
 
     return res.status(400).send(message);
   }
   
-  return res.send('validated');
+  return addFood(req, res);
 };
 
 module.exports = addFoodValidate;
