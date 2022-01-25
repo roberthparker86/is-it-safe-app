@@ -6,7 +6,7 @@ const createUser = (req, res) => {
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        username: req.body.username,
+        email: req.body.email,
         password: req.body.password,
         refrigerator: [],
         freezer: []

@@ -2,7 +2,7 @@ const User = require('../models/userData');
 
 // get User ops
 const getUser = async (req, res) => {
-    await User.findOne({username: req.params.username}, (err, user) => {
+    await User.findOne({email: req.params.email}, (err, user) => {
         if (err) {
             return res.status(400).json({
                 success: false,

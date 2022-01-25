@@ -1,27 +1,50 @@
-require('dotenv').config();
 const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const { response } = require('express');
-const db = require('./config/db.js');
-const userRoutes = require('./api/userRoutes');
+require('dotenv').config();
+const mongoose = require('mongoose');
+// const db = require('./config/db.js');
+
+// routes
+const userAuthRoutes = require('./routes/userAuthRoutes');
 
 const app = express();
 
-let port = process.env.PORT;
-if (port === null || port === "" || port === undefined) {
-    port = 3000;
-}
+// Avoid deprecation warning for mongoose
+mongoose.set('useCreateIndex', true);
 
-const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
+// databse connect
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("Users database connected"))
+  .catch((err) => console.log(err.message));
+
+// middleware
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use(cors());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
+
+// app.use(express.json());
+
+// Set home route
 app.get('/', (req, res) => {
     res.send('Client successfully connected. WOOT');
 });
 
-app.use('/api', userRoutes);
+// Set api routes
+app.use('/api', userAuthRoutes);
 
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+let port = process.env.PORT || 3000;
+
+app.listen( port, () => console.log(`Server is running on port ${port}`) );
