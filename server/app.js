@@ -9,13 +9,14 @@ const mongoose = require('mongoose');
 
 // routes
 const userAuthRoutes = require('./routes/userAuthRoutes');
+const userOpsRoutes = require('./routes/userOpsRoutes');
 
 const app = express();
 
 // Avoid deprecation warning for mongoose
 mongoose.set('useCreateIndex', true);
 
-// databse connect
+// database connect
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
@@ -35,15 +36,16 @@ app.use(express.urlencoded({ extended: true }));
 
 // const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
 
-// app.use(express.json());
-
 // Set home route
 app.get('/', (req, res) => {
-    res.send('Client successfully connected. WOOT');
+  res.send('Client successfully connected. WOOT');
 });
 
-// Set api routes
+// Set api auth routes
 app.use('/api', userAuthRoutes);
+
+// Set general application use routes
+app.use('/api', userOpsRoutes);
 
 let port = process.env.PORT || 3000;
 

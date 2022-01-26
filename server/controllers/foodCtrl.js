@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Food = require('../models/foodData');
 const User = require('../models/userData');
 
-const addFood = async (req, res) => {
+exports.addFood = async (req, res) => {
 	const {
 		name,
 		startTime,
@@ -27,10 +27,15 @@ const addFood = async (req, res) => {
 	});
 
 	if (compartment === 'refrigerator') {
+
 		user.refrigerator.push(food);
+
 	} else if (compartment === 'freezer') {
+
 		user.freezer.push(food);
+
 	} else {
+    
 		throw new Error('Compartment not found');
 	}
 
