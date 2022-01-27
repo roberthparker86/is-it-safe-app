@@ -4,6 +4,7 @@ const User = require('../models/userData');
 
 exports.addFood = async (req, res) => {
 	const {
+    id,
 		name,
 		startTime,
 		expireTime,
@@ -23,7 +24,7 @@ exports.addFood = async (req, res) => {
 	}
 
 	const user = await User.findById({
-		_id: req.params.id
+		_id: id
 	});
 
 	if (compartment === 'refrigerator') {
@@ -52,5 +53,3 @@ exports.addFood = async (req, res) => {
 		data: result
 	});
 };
-
-module.exports = addFood;
