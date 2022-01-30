@@ -6,5 +6,6 @@ const { runValidation } = require('../validators');
 
 // route.get('/') /api/ root is general get user info request
 route.put('/add-food', addFoodValidator, runValidation, addFood);
+route.put('/delete-food', runValidation);
 
 module.exports = route;
