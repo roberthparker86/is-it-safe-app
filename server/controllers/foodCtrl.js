@@ -3,6 +3,9 @@ const Food = require('../models/foodData');
 const User = require('../models/userData');
 
 exports.addFood = async (req, res) => {
+
+  console.log(req.body);
+
 	const {
     id,
 		name,

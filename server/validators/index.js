@@ -8,7 +8,7 @@ exports.runValidation = (req, res, next) => {
   if (!errors.isEmpty()) {
     // Unprocessable entity error sent back
     return res.status(422).json({
-      error: errors.array([0]).msg
+      error: errors
     });
   }
 

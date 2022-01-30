@@ -1,4 +1,4 @@
-const addFood = require('../server/services/addFoodCtrl');
+const addFood = require('../server/controllers/addFoodCtrl');
 
 const addFoodValidate = (req, res) => {
   const data = req.body,
@@ -41,7 +41,6 @@ const addFoodValidate = (req, res) => {
   }
 
   if (message !== '') {
-
     return res.status(400).send(message);
   }
   
