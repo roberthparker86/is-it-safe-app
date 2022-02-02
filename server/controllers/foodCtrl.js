@@ -4,8 +4,6 @@ const User = require('../models/userData');
 
 exports.addFood = async (req, res) => {
 
-  console.log(req.body);
-
 	const {
     id,
 		name,
@@ -55,4 +53,35 @@ exports.addFood = async (req, res) => {
 		message: 'Food added',
 		data: result
 	});
+};
+
+exports.deleteFood = async (req, res) => {
+
+  const {
+    userId,
+    foodId,
+    compartment
+  } = req.body;
+
+  const user = await User.findById({
+    _id: userId
+  })
+
+  const userArray = user[compartment];
+
+  userArray.pull(foodId);
+  user.markModified(compartment);
+
+  const result = await user.save();
+
+  if (!result) {
+    return res.status(404).json({
+      message: 'Error, food not deleted',
+    });
+  }
+
+  return res.status(200).json({
+    message: 'Food deleted',
+    data: result
+  });
 };
