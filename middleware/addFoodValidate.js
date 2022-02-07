@@ -1,9 +1,9 @@
 const addFood = require('../server/controllers/addFoodCtrl');
 
 const addFoodValidate = (req, res) => {
-  const data = req.body,
-    // input expected data type in string format and data to check. Returns true if data is of type
-    validateType = (expected, actual) => (expected === typeof actual);
+
+  const data = req.body;
+  
   let message = '';
 
   for (key in data) {
@@ -13,29 +13,27 @@ const addFoodValidate = (req, res) => {
       let convertedString = Number(data[key]);
 
       if ( (convertedString.toString() === 'NaN') || (convertedString <= 0) ) {
+
         message = `${key} must be a number greater than 0`;
         return res.status(400).send({ message });
       } 
     }
 
-    if ( key === 'name') {
-      
-      if (typeof data[key] !== 'string') {
-        message = `${key} must be a string`;
-        return res.status(400).send({ message });
-      }
+    if ( (key === 'name') && (typeof data[key] !== 'string') ) {
+
+      message = `${key} must be a string`;
+      return res.status(400).send({ message });
     }
     
-    if ( key === 'compartment') {
+    if ( (key === 'compartment') && (data[key] !== 'refrigerator') && (data[key] !== 'freezer') ) {
 
-      if (data[key] !== 'refrigerator' && data[key] !== 'freezer' ) {
-        message = `${key} must be either refrigerator or freezer`;
-        return res.status(400).send({ message });
-      }
+      message = `${key} must be either refrigerator or freezer`;
+      return res.status(400).send({ message });
     }
   };
 
   if ( Number(data.startTime) >= Number(data.expireTime) ) {
+
     message = `startTime must be less than expireTime`;
     return res.status(400).send({ message });
   }
