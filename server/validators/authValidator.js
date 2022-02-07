@@ -2,10 +2,14 @@ const { check } = require('express-validator');
 
 exports.userSignupValidator = [
   // check name field valid
-  check('name')
+  check('firstName')
     .not()
     .isEmpty()
     .withMessage('Name is required'),
+  // check('lastName')
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage('Name is required'),
   // check email field valid
   check('email')
     .isEmail()

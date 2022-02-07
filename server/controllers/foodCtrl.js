@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Food = require('../models/foodData');
 const User = require('../models/userData');
 
@@ -67,16 +66,29 @@ exports.deleteFood = async (req, res) => {
     _id: userId
   })
 
-  const userArray = user[compartment];
+  if (!user) {
+    return res.status(404).json({
+      message: 'User not found'
+    });
+  }
 
-  userArray.pull(foodId);
-  user.markModified(compartment);
+  if (compartment === 'freezer') {
+    user.freezer.pull(foodId);
+
+  } else if (compartment === 'refrigerator') {
+    user.refrigerator.pull(foodId);
+
+  } else {
+    return res.status(404).json({
+      message: 'Compartment not found'
+    });
+  }
 
   const result = await user.save();
 
   if (!result) {
     return res.status(404).json({
-      message: 'Error, food not deleted',
+      message: 'No result returned. Food not deleted',
     });
   }
 

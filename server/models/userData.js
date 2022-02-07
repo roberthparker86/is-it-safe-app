@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
+const Food = require('./foodData').schema;
 
 
 const User = new Schema({
@@ -25,8 +26,12 @@ const User = new Schema({
     },
     salt: String,
 
-    refrigerator: [],
-    freezer: []
+    refrigerator: {
+      type: [ Food ]
+    },
+    freezer: {
+      type: [ Food ]
+    }
 });
 
 User
