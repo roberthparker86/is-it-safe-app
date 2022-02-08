@@ -1,0 +1,18 @@
+body {
+  background-color: #0E1515;
+  color: #ADB8AE;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  color: #68B16A;
+  font-family: 'Caveat Brush', cursive;
+  font-size: 4rem;
+}
+
+.header {
+  background-color: #1C2222;
+  border-color: #2F3737 !important;
+}
+
+
