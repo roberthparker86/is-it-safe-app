@@ -127,22 +127,28 @@ button.btn.btn-primary:hover {
 
 #refrigerator-list,
 #freezer-list {
-  position: relative;
-  transform: translate(0, 0);
-  opacity: 1;
-  transition: all .25s ease-in-out;
-}
-.slider-container {
-  overflow: visible;
-  position: relative;
+  overflow: hidden;
+  transition: max-width .25s ease-in-out;
+  max-width: 2400px;
 }
 
 #refrigerator-list.hidden {
-  transform: translate(-100%, 0%);
   opacity: 0;
+  max-width: 0;
 }
 
 #freezer-list.hidden {
-  transform: translate(100%, -100%);
+  opacity: 0;
+  max-width: 0;
+}
+
+#regrigerator-list div.col-md-6.col-lg-4.mb-5,
+#freezer-list div.col-md-6.col-lg-4.mb-5 {
+  opacity: 1;
+  transition: opacity .15s ease-in-out .25s;
+}
+
+#regrigerator-list.hidden div.col-md-6.col-lg-4.mb-5,
+#freezer-list.hidden div.col-md-6.col-lg-4.mb-5 {
   opacity: 0;
 }

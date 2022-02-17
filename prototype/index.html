@@ -43,7 +43,7 @@
     </div>
     <div class="mt-4">
 
-      <div class="slider-container">
+      <div class="slider-container d-flex justify-content-center">
         <div id="refrigerator-list" class="">
           <div class="row">
             <div class="col-md-6 col-lg-4 mb-5">
@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        <div id="freezer-list" class="hidden d-none">
+        <div id="freezer-list" class="hidden">
           <div class="row">
             <div class="col-md-6 col-lg-4 mb-5">
               <div class="bg-dark-red border border-3 border-med-red drop-shadow-med-red rounded position-relative p-3">
@@ -175,11 +175,6 @@
 
           $('#refrigerator-list').toggleClass('hidden');
           $('#freezer-list').toggleClass('hidden');
-
-          setTimeout(() => {
-            $('#refrigerator-list').toggleClass('d-none');
-            $('#freezer-list').toggleClass('d-none');
-          }, 300);
         }
       });
     });
