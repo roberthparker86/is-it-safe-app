@@ -125,30 +125,44 @@ button.btn.btn-primary:hover {
   top: .5rem;
 }
 
-#refrigerator-list,
+/* #refrigerator-list,
 #freezer-list {
-  overflow: hidden;
-  transition: max-width .25s ease-in-out;
+  opacity: 1;
   max-width: 2400px;
+  transition: opacity .25s ease-in-out, max-width .25s ease-in-out;
 }
 
 #refrigerator-list.hidden {
   opacity: 0;
   max-width: 0;
-}
+} 
 
 #freezer-list.hidden {
   opacity: 0;
   max-width: 0;
+} */
+
+#refrigerator-list,
+#freezer-list {
+  opacity: 1;
+  transition: opacity .25s ease-in-out;
 }
 
-#regrigerator-list div.col-md-6.col-lg-4.mb-5,
+#refrigerator-list.hidden {
+  opacity: 0;
+} 
+
+#freezer-list.hidden {
+  opacity: 0;
+}
+
+/* #regrigerator-list div.col-md-6.col-lg-4.mb-5,
 #freezer-list div.col-md-6.col-lg-4.mb-5 {
   opacity: 1;
-  transition: opacity .15s ease-in-out .25s;
+  transition: opacity .15s ease-in-out 3s;
 }
 
 #regrigerator-list.hidden div.col-md-6.col-lg-4.mb-5,
 #freezer-list.hidden div.col-md-6.col-lg-4.mb-5 {
   opacity: 0;
-}
+} */

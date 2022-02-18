@@ -99,7 +99,7 @@
           </div>
         </div>
 
-        <div id="freezer-list" class="hidden">
+        <div id="freezer-list" class="hidden d-none">
           <div class="row">
             <div class="col-md-6 col-lg-4 mb-5">
               <div class="bg-dark-red border border-3 border-med-red drop-shadow-med-red rounded position-relative p-3">
@@ -173,8 +173,25 @@
 
         if (relatedList.hasClass('hidden')) {
 
-          $('#refrigerator-list').toggleClass('hidden');
-          $('#freezer-list').toggleClass('hidden');
+          if (clickedID === 'refrigerator') {
+
+            $('#freezer-list').addClass('hidden');
+
+            setTimeout(() => {
+
+              $('#freezer-list').addClass('d-none');              
+              $('#refrigerator-list').removeClass('hidden d-none');
+            }, 250);
+
+          } else {
+
+            $('#refrigerator-list').addClass('hidden');
+            
+            setTimeout(() => {
+              $('#refrigerator-list').addClass('d-none');
+              $('#freezer-list').removeClass('hidden d-none');
+            }, 250);
+          }
         }
       });
     });
