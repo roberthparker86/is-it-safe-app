@@ -24,3 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 refrigerator-REF.PNG
+
+# don't need to track anymore
+/prototype
