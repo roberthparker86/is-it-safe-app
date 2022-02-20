@@ -24,6 +24,36 @@ input, button {
   border-radius: .25rem;
   outline: none; }
 
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 3rem 0;
+  width: 100%; }
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 720px; } }
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 768px; } }
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 992px; } }
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1200px; } }
+
+@media screen and (min-width: 2592px) {
+  .container {
+    max-width: 2200px; } }
+
 body {
   color: #ADB8AE;
   font-family: "Roboto", sans-serif;
@@ -84,32 +114,22 @@ header {
       background-color: #68B16A;
       transform: scale(105%); }
 
-.header-content__container {
-  align-items: center;
+.container.container--main-content {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  padding: 3rem 0;
-  width: 100%; }
-
-@media (min-width: 768px) {
-  .header-content__container {
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 720px; } }
-
-@media (min-width: 992px) {
-  .header-content__container {
-    max-width: 768px; } }
-
-@media (min-width: 1200px) {
-  .header-content__container {
-    max-width: 992px; } }
-
-@media (min-width: 1400px) {
-  .header-content__container {
-    max-width: 1200px; } }
-
-@media screen and (min-width: 2592px) {
-  .header-content__container {
-    max-width: 2200px; } }
+  align-items: center;
+  justify-content: center; }
+  .container.container--main-content .add-food__form {
+    background-color: #68B16A;
+    border-radius: .25rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+    width: 50%; }
+    .container.container--main-content .add-food__form .add-food__input-container {
+      display: flex;
+      margin-bottom: 1rem; }
+    .container.container--main-content .add-food__form label {
+      margin-right: 1rem; }
+    .container.container--main-content .add-food__form input {
+      flex-grow: 1; }

@@ -22,3 +22,39 @@ input, button {
     outline: none;
 
 }
+
+.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: $spacer-xlg 0;
+    width: 100%;
+}
+@media (min-width: $brk-md) {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 720px;
+    }
+}
+@media (min-width: $brk-lg) {
+    .container {
+        max-width: $brk-md;
+    }
+}
+@media (min-width: $brk-xl) {
+    .container {
+        max-width: $brk-lg;
+    }
+}
+@media (min-width: $brk-xxl) {
+    .container {
+        max-width: $brk-xl;
+    }
+}
+@media screen and (min-width: $brk-4k) {
+    .container {
+        max-width: 2200px;
+    }    
+}

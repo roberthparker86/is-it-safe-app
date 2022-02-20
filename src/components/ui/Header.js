@@ -7,7 +7,7 @@ const Header = (props) => {
 
     return (
         <header>
-            <div className='header-content__container'>
+            <div className='container'>
                 <H1 className='logo'>
                     Is It Safe?
                 </H1>
@@ -28,7 +28,7 @@ const Header = (props) => {
                     />
 
                     <button type='submit' className='login-form__btn'>
-                        <i class="fas fa-sign-out-alt fa-2x"></i>
+                        <i className="fas fa-sign-out-alt fa-2x"></i>
                         Login
                     </button>
                 </Form>

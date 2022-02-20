@@ -1,10 +1,16 @@
 import React from 'react';
 import Header from './components/ui/Header.js';
+import MainContent from './components/ui/MainContent.js';
 
-function App() {
-  return (
-    <Header />
-  );
-}
+const App = () => {
+	
+	return (
+		<>
+			<Header />
+			<MainContent />
+		</>
+
+	);
+};
 
 export default App;

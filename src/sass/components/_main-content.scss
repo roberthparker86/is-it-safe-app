@@ -1,0 +1,28 @@
+.container.container--main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .add-food__form {
+        background-color: $color-primary-green;
+        border-radius: .25rem;
+        display: flex;
+        flex-direction: column;
+        padding: $spacer-md $spacer-lg;
+        width: 50%;
+
+        .add-food__input-container {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            margin-right: 1rem;
+        }
+
+        input {
+            flex-grow: 1;
+        }
+    }
+}
