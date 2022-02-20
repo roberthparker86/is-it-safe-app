@@ -37,9 +37,9 @@
       <h4 class="mb-0">+ Add Food</h4>
     </button>
 
-    <div class="d-flex flex-row justify-content-evenly mx-auto w-50">
-      <button id="refrigerator" class="btn btn-primary list-ctrl">Refrigerator</button>
-      <button id="freezer" class="btn btn-primary list-ctrl">Freezer</button>
+    <div class="d-flex flex-row justify-content-center mx-auto w-50">
+      <button id="refrigerator" class="btn btn-primary rounded-0 rounded-start list-ctrl w-50">Refrigerator</button>
+      <button id="freezer" class="btn btn-primary rounded-0 rounded-end list-ctrl w-50">Freezer</button>
     </div>
     <div class="mt-4">
 
@@ -180,17 +180,20 @@
             setTimeout(() => {
 
               $('#freezer-list').addClass('d-none');              
-              $('#refrigerator-list').removeClass('hidden d-none');
-            }, 250);
+              $('#refrigerator-list').removeClass('d-none');
+              $('#refrigerator-list').removeClass('hidden');
+            }, 500);
 
           } else {
 
             $('#refrigerator-list').addClass('hidden');
             
             setTimeout(() => {
+
               $('#refrigerator-list').addClass('d-none');
-              $('#freezer-list').removeClass('hidden d-none');
-            }, 250);
+              $('#freezer-list').removeClass('d-none');
+              $('#freezer-list').removeClass('hidden');
+            }, 500);
           }
         }
       });

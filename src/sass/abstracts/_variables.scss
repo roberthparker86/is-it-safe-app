@@ -1,25 +1,43 @@
-//* FONT VARIABLES
-// Families
-$font-header: 'Inter', sans-serif;
+/* FONT VARIABLES */
+/* Families */
+$font-logo: 'Caveat Brush', sans-serif;
 $font-body: 'Roboto', sans-serif;
 
-// Sizes
-$font-desktop-sm: 1.4rem;
-$font-desktop-md: 2.2rem;
+/* Sizes */
+$font-desktop-sm: 1rem;
+$font-desktop-md: 2.25rem;
 $font-desktop-lg: 3rem;
-$font-desktop-xlg: 3.8rem;
+$font-desktop-xlg: 4rem;
 
-// Weights
-$font-heading-reg: 300;
-$font-body-reg: 500;
-$font-body-bold: 700;
-$font-heading-bold: 600;
+/* Weights */
+$font-light: 300;
+$font-reg: 500;
+$font-bold: 900;
 
-//* COLORS
-$color-black: darken(#272727, 10%);
-$color-dark-grey: #272727;
-$color-grey: #747474;
-$color-orange: #ff652f;
-$color-yellow: #ffe400;
-$color-green: #14a76c;
-$color-off-white: darken(white, 15%);
+/* COLORS */
+$color-black: #0E1515;
+$color-dark-grey: #1C2222;
+$color-dark-red: #301D1D;
+$color-dark-yellow: #4A401C;
+$color-med-grey: #2F3737;
+$color-med-red: #543939;
+$color-med-yellow: #706743;
+$color-med-green: #428A45;
+$color-light-grey: #ADB8AE;
+$color-primary-green: #68B16A;
+$color-primary-red: #E05252;
+$color-primary-yellow: #D7B842;
+
+/* SPACING */
+$spacer-sm: .5rem;
+$spacer-md: 1rem;
+$spacer-lg: 1.5rem;
+$spacer-xlg: 3rem;
+
+/* BREAKPOINTS */
+$brk-sm: 576px;
+$brk-md: 768px;
+$brk-lg: 992px;
+$brk-xl: 1200px;
+$brk-xxl: 1400px;
+$brk-4k: 2592px;

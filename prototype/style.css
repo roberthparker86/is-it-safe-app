@@ -125,27 +125,10 @@ button.btn.btn-primary:hover {
   top: .5rem;
 }
 
-/* #refrigerator-list,
-#freezer-list {
-  opacity: 1;
-  max-width: 2400px;
-  transition: opacity .25s ease-in-out, max-width .25s ease-in-out;
-}
-
-#refrigerator-list.hidden {
-  opacity: 0;
-  max-width: 0;
-} 
-
-#freezer-list.hidden {
-  opacity: 0;
-  max-width: 0;
-} */
-
 #refrigerator-list,
 #freezer-list {
   opacity: 1;
-  transition: opacity .25s ease-in-out;
+  transition: opacity .5s ease-in-out;
 }
 
 #refrigerator-list.hidden {
@@ -155,14 +138,3 @@ button.btn.btn-primary:hover {
 #freezer-list.hidden {
   opacity: 0;
 }
-
-/* #regrigerator-list div.col-md-6.col-lg-4.mb-5,
-#freezer-list div.col-md-6.col-lg-4.mb-5 {
-  opacity: 1;
-  transition: opacity .15s ease-in-out 3s;
-}
-
-#regrigerator-list.hidden div.col-md-6.col-lg-4.mb-5,
-#freezer-list.hidden div.col-md-6.col-lg-4.mb-5 {
-  opacity: 0;
-} */

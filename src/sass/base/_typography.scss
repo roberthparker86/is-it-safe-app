@@ -1,24 +1,27 @@
 body {
-	color: $color-off-white;
+	color: $color-light-grey;
 	font-family: $font-body;
 	font-size: $font-desktop-sm;
-	font-weight: $font-body-reg;
+	font-weight: $font-reg;
 }
 
-h1 {
-	font-family: $font-header;
+.logo {
+    color: $color-primary-green;
+	font-family: $font-logo;
 	font-size: $font-desktop-xlg;
-	font-weight: $font-heading-bold;
+	font-weight: $font-bold;
+}
+@media (min-width: $brk-xxl) {
+    .logo {
+        font-size: 5rem;
+    }
 }
 
-.header {
-
-	&__login {
-		font-weight: $font-body-bold;
-	}
-
-	&__title {
-		color: $color-green;
-		font-size: $font-desktop-lg;
-	}
+label {
+    font-size: $font-desktop-sm;
+}
+@media (min-width: $brk-xxl) {
+    label {
+        font-size: 1.5rem;
+    }
 }
