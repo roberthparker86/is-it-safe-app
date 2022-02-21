@@ -4,10 +4,10 @@ $font-logo: 'Caveat Brush', sans-serif;
 $font-body: 'Roboto', sans-serif;
 
 /* Sizes */
-$font-desktop-sm: 1rem;
-$font-desktop-md: 2.25rem;
-$font-desktop-lg: 3rem;
-$font-desktop-xlg: 4rem;
+$font-desktop-sm: 1.5rem;
+$font-desktop-md: 2.5rem;
+$font-desktop-lg: 3.5rem;
+$font-desktop-xlg: 4.5rem;
 
 /* Weights */
 $font-light: 300;
@@ -29,10 +29,11 @@ $color-primary-red: #E05252;
 $color-primary-yellow: #D7B842;
 
 /* SPACING */
-$spacer-sm: .5rem;
-$spacer-md: 1rem;
-$spacer-lg: 1.5rem;
-$spacer-xlg: 3rem;
+$spacer-xs: 1rem;
+$spacer-sm: 1.5rem;
+$spacer-md: 2rem;
+$spacer-lg: 2.75rem;
+$spacer-xl: 3.5rem;
 
 /* BREAKPOINTS */
 $brk-sm: 576px;

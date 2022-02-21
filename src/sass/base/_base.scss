@@ -9,7 +9,7 @@ html {
 }
 @media screen and (min-width: $brk-4k) {
     html {
-        font-size: 150%;
+        font-size: 100%;
     }
 }
 
@@ -20,7 +20,21 @@ body {
 input, button {
     border-radius: .25rem;
     outline: none;
+}
 
+.btn {
+    border-radius: .25rem;
+    cursor: pointer;
+    padding: .5rem;
+}
+
+input {
+    background-color: $color-dark-grey;
+    border: 2px solid $color-light-grey;
+    color: $color-light-grey;
+    filter: drop-shadow(0 .5rem 0 $color-light-grey);
+    min-width: 24rem;            
+    padding: .5rem .5rem;
 }
 
 .container {
@@ -28,7 +42,7 @@ input, button {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    padding: $spacer-xlg 0;
+    padding: $spacer-xl 0;
     width: 100%;
 }
 @media (min-width: $brk-md) {

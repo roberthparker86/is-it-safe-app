@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from './Form';
 import Input from './Input';
 
 const MainContent = (props) => {
 
+    const [ isClicked, setClick ] = useState(false);
+
     return (
         <div className='container container--main-content'>
-            <button id='add' className='btn-primary' onClick={function () {
-                console.log(this);
-            }}>
+            <button 
+                id='add' 
+                className={ (isClicked ? 'btn btn-primary clicked': 'btn btn-primary') } 
+                onClick={() => setClick(!isClicked)}
+            >
                 + Add Food
             </button>
 
-            <Form className='add-food__form'>
+            <Form className={ (isClicked ? 'add-food__form show' : 'add-food__form')}>
 
                 <Input
                     className='add-food__input-container'
@@ -50,7 +54,7 @@ const MainContent = (props) => {
                     placeholder='Regriferator or freezer?'
                 />
 
-                <button type='submit' className='btn-secondary'>Add</button>
+                <button type='submit' className='btn btn-secondary'>Add</button>
 
             </Form>
         </div>

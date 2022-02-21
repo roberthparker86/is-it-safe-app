@@ -15,7 +15,7 @@ html {
 
 @media screen and (min-width: 2592px) {
   html {
-    font-size: 150%; } }
+    font-size: 100%; } }
 
 body {
   background-color: #0E1515; }
@@ -24,12 +24,25 @@ input, button {
   border-radius: .25rem;
   outline: none; }
 
+.btn {
+  border-radius: .25rem;
+  cursor: pointer;
+  padding: .5rem; }
+
+input {
+  background-color: #1C2222;
+  border: 2px solid #ADB8AE;
+  color: #ADB8AE;
+  filter: drop-shadow(0 0.5rem 0 #ADB8AE);
+  min-width: 24rem;
+  padding: .5rem .5rem; }
+
 .container {
   align-items: center;
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 3rem 0;
+  padding: 3.5rem 0;
   width: 100%; }
 
 @media (min-width: 768px) {
@@ -57,13 +70,13 @@ input, button {
 body {
   color: #ADB8AE;
   font-family: "Roboto", sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 500; }
 
 .logo {
   color: #68B16A;
   font-family: "Caveat Brush", sans-serif;
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: 900; }
 
 @media (min-width: 1400px) {
@@ -71,7 +84,7 @@ body {
     font-size: 5rem; } }
 
 label {
-  font-size: 1rem; }
+  font-size: 1.5rem; }
 
 @media (min-width: 1400px) {
   label {
@@ -90,13 +103,6 @@ header {
     margin-bottom: 1.25rem; }
     .login-form__input label {
       margin-bottom: .5rem; }
-    .login-form__input input {
-      background-color: #0E1515;
-      border: 2px solid #ADB8AE;
-      color: #ADB8AE;
-      filter: drop-shadow(0 0.5rem 0 #ADB8AE);
-      padding: .5rem .5rem;
-      min-width: 24rem; }
   .login-form__btn {
     align-items: center;
     background-color: #ADB8AE;
@@ -119,17 +125,45 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center; }
-  .container.container--main-content .add-food__form {
-    background-color: #68B16A;
-    border-radius: .25rem;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 1.5rem;
+  .container.container--main-content .btn-primary {
+    background-color: #2F3737;
+    border: none;
+    color: #ADB8AE;
+    font-size: 2.5rem;
+    font-weight: 900;
+    transition: all .15s ease-in-out;
     width: 50%; }
+    .container.container--main-content .btn-primary:hover {
+      background-color: #68B16A;
+      color: #1C2222; }
+    .container.container--main-content .btn-primary.btn.clicked {
+      border-radius: .25rem .25rem 0 0; }
+  .container.container--main-content .btn-secondary {
+    background-color: #1C2222;
+    border: none;
+    color: #ADB8AE;
+    cursor: pointer;
+    font-weight: 900;
+    margin-top: 2rem;
+    transition: all .15s ease-in-out; }
+    .container.container--main-content .btn-secondary:hover {
+      background-color: #ADB8AE;
+      color: #1C2222; }
+  .container.container--main-content .add-food__form {
+    background-color: #2F3737;
+    border-radius: 0 0 .25rem .25rem;
+    display: none;
+    flex-direction: column;
+    padding: 3.5rem;
+    width: 50%; }
+    .container.container--main-content .add-food__form.show {
+      display: flex; }
     .container.container--main-content .add-food__form .add-food__input-container {
       display: flex;
-      margin-bottom: 1rem; }
+      flex-direction: column;
+      margin-bottom: 2rem; }
     .container.container--main-content .add-food__form label {
-      margin-right: 1rem; }
+      margin-bottom: 1rem; }
     .container.container--main-content .add-food__form input {
-      flex-grow: 1; }
+      flex-grow: 1;
+      padding: .5rem; }
