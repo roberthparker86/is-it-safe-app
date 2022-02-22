@@ -152,12 +152,16 @@ header {
   .container.container--main-content .add-food__form {
     background-color: #2F3737;
     border-radius: 0 0 .25rem .25rem;
-    display: none;
+    display: flex;
     flex-direction: column;
-    padding: 3.5rem;
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 3.5rem;
+    transition: all .35s ease-in-out;
     width: 50%; }
     .container.container--main-content .add-food__form.show {
-      display: flex; }
+      max-height: 1900px;
+      padding: 3.5rem; }
     .container.container--main-content .add-food__form .add-food__input-container {
       display: flex;
       flex-direction: column;

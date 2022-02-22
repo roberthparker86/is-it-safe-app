@@ -6,6 +6,35 @@ const MainContent = (props) => {
 
     const [ isClicked, setClick ] = useState(false);
 
+    const [ inputValue, updateInputValue ] = useState({
+        foodName: '',
+        startDate: '',
+        expiryDate: '',
+        compartment: ''
+    });
+
+    const {
+        foodName,
+        startDate,
+        expiryDate,
+        compartment
+    } = inputValue;
+
+    const handleUpdate = (e) => {
+
+        const { name, value } = e.target;
+
+        console.log(name, value);
+
+        updateInputValue((prev) => {
+
+            return {
+                ...prev,
+                [name]: value
+            };
+        });
+    }
+
     return (
         <div className='container container--main-content'>
             <button 
@@ -21,28 +50,31 @@ const MainContent = (props) => {
                 <Input
                     className='add-food__input-container'
                     labelText='Food Name'
-                    id='food-name'
-                    name='food-name'
-                    inputValue=''
+                    id='foodName'
+                    name='foodName'
+                    inputValue={foodName}
                     placeholder='Food name'
+                    onChange={ handleUpdate }
                 />
 
                 <Input
                     className='add-food__input-container'
                     labelText='Date Cooked/Opened'
-                    id='start-date'
-                    name='start-date'
-                    inputValue=''
+                    id='startDate'
+                    name='startDate'
+                    inputValue={startDate}
                     placeholder='Date food was opened or cooked'
+                    onChange={ handleUpdate }
                 />
                 
                 <Input
                     className='add-food__input-container'
                     labelText='Expiry Date'
-                    id='expiry-date'
-                    name='expiry-date'
-                    inputValue=''
+                    id='expiryDate'
+                    name='expiryDate'
+                    inputValue={expiryDate}
                     placeholder='Days until food expires'
+                    onChange={ handleUpdate }
                 />
                 
                 <Input
@@ -50,11 +82,16 @@ const MainContent = (props) => {
                     labelText='Compartment'
                     id='compartment'
                     name='compartment'
-                    inputValue=''
+                    inputValue={compartment}
                     placeholder='Regriferator or freezer?'
+                    onChange={ handleUpdate }
                 />
 
-                <button type='submit' className='btn btn-secondary'>Add</button>
+                <button type='submit' className='btn btn-secondary' 
+                    onClick={() => console.log(inputValue)}
+                >
+                    Add
+                </button>
 
             </Form>
         </div>
