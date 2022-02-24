@@ -24,8 +24,6 @@ const MainContent = (props) => {
 
         const { name, value } = e.target;
 
-        console.log(name, value);
-
         updateInputValue((prev) => {
 
             return {
@@ -45,7 +43,11 @@ const MainContent = (props) => {
                 + Add Food
             </button>
 
-            <Form className={ (isClicked ? 'add-food__form show' : 'add-food__form')}>
+            <Form 
+                className={ (isClicked ? 'add-food__form show' : 'add-food__form')}
+                method="POST"
+                action='http://localhost:8080/'
+            >
 
                 <Input
                     className='add-food__input-container'
