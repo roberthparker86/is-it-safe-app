@@ -1,13 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import AppRouter from './routers/AppRouter';
+import LoadingPage from './components/LoginPage';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+/*  
+    Initialize redux store then pass to app through
+    the Provider Component
+*/
+const store = configureStore();
+const jsx = (
+    <Provider store={store}>
+        <AppRouter />
+    </Provider>
 );
 
-reportWebVitals();
+let hasRendered = false;
+
+const renderApp = () => {
+
+    if (!hasRendered) {
+
+        ReactDOM.render(jsx, document.getElementById('root'));
+        hasRendered = true;
+    }
+};
+
+ReactDOM.render(<LoadingPage />, document.getElementById('root'));
+
+renderApp();
+
