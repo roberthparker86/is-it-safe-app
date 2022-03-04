@@ -2,9 +2,11 @@ import React from 'react';
 
 const Form = (props) => {
 
+    const { className, method, action, children } = props;
+
     return (
-        <form className={props.className || ''} method={props.method} action={props.action || ''}>
-            {props.children}
+        <form className={className || ''} method={method} action={action || ''}>
+            {children}
         </form>
     );
 };

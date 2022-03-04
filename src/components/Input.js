@@ -1,14 +1,10 @@
 import React from 'react';
 
 const Input = (props) => {
+
     const {
-        className,
-        labelText,
-        id,
-        name,
-        inputValue,
-        placeholder,
-        onChange
+        className, labelText, id,
+        inputValue, placeholder, onChange
     } = props;
 
     return (
@@ -19,7 +15,7 @@ const Input = (props) => {
 
             <input 
                 id={ id || '' }
-                name={ name || '' } 
+                name={ id || '' } 
                 value={ inputValue || '' }
                 placeholder={ placeholder || '' }
                 onChange={ onChange }
