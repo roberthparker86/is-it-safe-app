@@ -44,11 +44,14 @@ input {
     margin: 0 auto;
     padding: $spacer-xl 0;
     width: 100%;
+
+    &.container--login {
+        justify-content: center;
+    }
 }
 @media (min-width: $brk-md) {
     .container {
         flex-direction: row;
-        justify-content: space-between;
         max-width: 720px;
     }
 }

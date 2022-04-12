@@ -44,11 +44,12 @@ input {
   margin: 0 auto;
   padding: 3.5rem 0;
   width: 100%; }
+  .container.container--login {
+    justify-content: center; }
 
 @media (min-width: 768px) {
   .container {
     flex-direction: row;
-    justify-content: space-between;
     max-width: 720px; } }
 
 @media (min-width: 992px) {
@@ -96,7 +97,8 @@ header {
 
 .login-form {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  width: 100%; }
   .login-form__input {
     display: flex;
     flex-direction: column;
@@ -110,7 +112,7 @@ header {
     cursor: pointer;
     display: flex;
     justify-content: center;
-    margin-top: .5rem;
+    margin: .75rem 0;
     padding: .5rem;
     transform: scale(100%);
     transition: all .15s ease-in-out; }
@@ -119,6 +121,10 @@ header {
     .login-form__btn:hover {
       background-color: #68B16A;
       transform: scale(105%); }
+
+@media screen and (min-width: 992px) {
+  .login-form {
+    width: 50%; } }
 
 .container.container--main-content {
   display: flex;

@@ -4,6 +4,7 @@ const {
   signup,
   signin,
   signout,
+  getUser,
   requireSignin
 } = require('../controllers/authCtrl');
 
@@ -18,12 +19,6 @@ const {
 route.post('/signup', userSignupValidator, runValidation, signup);
 route.post('/signin', userSigninValidator, runValidation, signin);
 route.get('/signout', signout);
-
-// Test?
-route.get('/secret', requireSignin, (req, res) => {
-  res.json({
-    user: req.user
-  });
-});
+route.get('/user', getUser);
 
 module.exports = route;

@@ -2,6 +2,7 @@ const User = require("../models/userData");
 const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
+const { rest } = require("lodash");
 
 // user signup
 exports.signup = (req, res) => {
@@ -52,22 +53,28 @@ exports.signin = (req, res) => {
 
     // check user existance
     if (!user) {
-      return res.status(400).json({
-        error: 'User with that email does not exist. Please try again or signup.'
+      return res.status(404).json({
+        error: 'User with that email does not exist. Please try again or signup.',
+        email,
+        password
       });
     }
 
     // handle any other errors
     if (err) {
       return res.status(400).json({
-        error: err
+        error: err,
+        email,
+        password
       });
     }
 
     // authentication returns false
     if (!user.authenticate(password)) {
-      return res.status(400).json({
-        message: 'Email and password do not match. Please try again'
+      return res.status(401).json({
+        message: 'Email and password do not match. Please try again',
+        email,
+        password
       });
     }
 
@@ -77,19 +84,7 @@ exports.signin = (req, res) => {
       expiresIn: '1d'
     });
 
-    res.cookie('token', token, { expiresIn: '1d' });
-
-    const { _id, firstName, lastName, email, refrigerator, freezer } = user;
-
-    return res.json({
-      token,
-      _id,
-      firstName,
-      lastName,
-      email,
-      refrigerator,
-      freezer
-    });
+    return res.cookie('token', token, { httpOnly: true });
   });
 };
 
@@ -101,10 +96,36 @@ exports.signout = (req, res) => {
   });
 };
 
-exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ["HS256"]
-});
+exports.getUser = (req, res) => {
+
+    const id = req._id;
+
+    User.findById({ _id }).exec((err, user) => {
+
+        // User not found
+        if (!user) {
+            return res.status(404).json({
+                error: 'User not found'
+            });
+        }
+
+        // other errors
+        if (err) {
+            return res.status(400).json({
+                error: err
+            });
+        }
+
+        return res.status(200).json({
+            data: user
+        });
+    });
+};
+
+// exports.requireSignin = expressJwt({
+//   secret: process.env.JWT_SECRET,
+//   algorithms: ["HS256"]
+// });
 
 exports.authMiddleware = (req, res, next) => {
 

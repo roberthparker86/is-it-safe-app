@@ -5,11 +5,17 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
-// const db = require('./config/db.js');
 
 // routes
 const userAuthRoutes = require('./routes/userAuthRoutes');
 const userOpsRoutes = require('./routes/userOpsRoutes');
+const jwt = require('express-jwt');
+
+const jwtParams = {
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  getToken: req => req.cookies.token
+};
 
 const app = express();
 
@@ -30,6 +36,8 @@ mongoose
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(jwt(jwtParams));
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));

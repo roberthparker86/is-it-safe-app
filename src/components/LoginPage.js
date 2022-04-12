@@ -1,10 +1,37 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import Header from './Header';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
-import axios from 'axios';
+
 
 const LoginPage = () => {
+
+    const apiUrl = 'http://localhost:8080/api/';
+
+    // axios.interceptors.request.use(
+    //     config => {
+
+    //         const { origin } = new URL(config.url);
+    //         const allowedOrigins = [apiUrl];
+    //         const token = localStorage.getItem('token');
+
+    //         // .includes() is an Array prototype method
+    //         if (allowedOrigins.includes(origin)) {
+    //             config.headers.authorization = `Bearer ${token}`;
+    //         };
+
+    //         return config; 
+    //     },
+    //     error => {
+    //         return Promise.reject(error);
+    //     }
+    // );
+
+    const storedJwt = localStorage.getItem('token');
+    const [ jwt, setJwt ] = useState(storedJwt || null);
+    const [ fetchError, setFetchError ] = useState(null);
 
     const [ loginForm, updateLoginForm ] = useState({
         email: '',
@@ -24,27 +51,44 @@ const LoginPage = () => {
         });
     };
 
-    const submitForm = async (userEmail, userPassword) => {
+    const submitForm = async (email, password) => {
 
-        console.log('submitForm fired with these args: ', userEmail, userPassword);
+        const credentials = {
+          email,
+          password
+        };
 
-        axios.post('http://localhost:8080/api/signin', {
-            email: userEmail,
-            password: userPassword
-        })
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
+        try {
+            
+            const { data } = await axios.post(`${apiUrl}signin`, credentials);
+
+        } catch (err) {
+          console.trace(err);
+        }
     };
 
     return (
-        <Form className='login-form'>
-            <Input className='login-form__input' id="email" inputValue={loginForm.email} onChange={handleLoginChange} />
-            <Input className='login-form__input' id="password" inputValue={loginForm.password} onChange={handleLoginChange} />
-            <Button onClick={ (e) => {
-                e.preventDefault();
-                submitForm(loginForm.email, loginForm.password);
-            } }>Submit</Button>
-        </Form>
+        <>
+            <Header />
+
+            <div className='container container--login'>
+                <Form className='login-form'>
+                    <Input className='login-form__input' id="email" inputValue={loginForm.email} onChange={handleLoginChange} />
+
+                    <Input className='login-form__input' id="password" inputValue={loginForm.password} onChange={handleLoginChange} />
+
+                    <Button className='login-form__btn' onClick={ (e) => {
+                      submitForm(loginForm.email, loginForm.password);
+                      e.preventDefault();
+                    } }>Submit</Button>
+
+                    <Button className='login-form__btn' onClick={(e) => {
+                        e.preventDefault();
+                        //console.log(jwt);
+                    }}>Show Token Data</Button>
+                </Form>
+            </div>
+        </>        
     );
 };
 
