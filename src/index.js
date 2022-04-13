@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import AppRouter from './routers/AppRouter';
-import LoadingPage from './components/LoginPage';
+//import LoadingPage from './components/LoginPage';
 
 /*  
     Initialize redux store then pass to app through
@@ -16,18 +16,18 @@ const jsx = (
     </Provider>
 );
 
-let hasRendered = false;
+// let hasRendered = false;
 
-const renderApp = () => {
+// const renderApp = () => {
 
-    if (!hasRendered) {
+//     if (!hasRendered) {
 
-        ReactDOM.render(jsx, document.getElementById('root'));
-        hasRendered = true;
-    }
-};
+//         ReactDOM.render(jsx, document.getElementById('root'));
+//         hasRendered = true;
+//     }
+// };
 
-ReactDOM.render(<LoadingPage />, document.getElementById('root'));
+ReactDOM.render(jsx, document.getElementById('root'));
 
-renderApp();
+//renderApp();
 

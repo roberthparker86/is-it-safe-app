@@ -2,7 +2,6 @@ const User = require("../models/userData");
 const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
-const { rest } = require("lodash");
 
 // user signup
 exports.signup = (req, res) => {
@@ -81,10 +80,14 @@ exports.signin = (req, res) => {
     // authentication returns true
     // generate a token and send to client
     const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, {
-      expiresIn: '1d'
+      expiresIn: '1h'
     });
 
-    return res.cookie('token', token, { httpOnly: true });
+    res.cookie('token', token, { httpOnly: true });
+
+    return token ? 
+      res.status(201).json({ message: "Auth Cookie created!"}) 
+      : res.status(500).json({ message: "Auth Cookie not created!"});
   });
 };
 

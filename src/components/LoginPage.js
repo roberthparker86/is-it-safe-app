@@ -4,92 +4,109 @@ import Header from './Header';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
-const LoginPage = () => {
+const LoginPage = (props) => {
 
-    const apiUrl = 'http://localhost:8080/api/';
+  const apiUrl = 'http://localhost:8080/api/';
 
-    // axios.interceptors.request.use(
-    //     config => {
+  // axios.interceptors.request.use(
+  //     config => {
 
-    //         const { origin } = new URL(config.url);
-    //         const allowedOrigins = [apiUrl];
-    //         const token = localStorage.getItem('token');
+  //         const { origin } = new URL(config.url);
+  //         const allowedOrigins = [apiUrl];
+  //         const token = localStorage.getItem('token');
 
-    //         // .includes() is an Array prototype method
-    //         if (allowedOrigins.includes(origin)) {
-    //             config.headers.authorization = `Bearer ${token}`;
-    //         };
+  //         // .includes() is an Array prototype method
+  //         if (allowedOrigins.includes(origin)) {
+  //             config.headers.authorization = `Bearer ${token}`;
+  //         };
 
-    //         return config; 
-    //     },
-    //     error => {
-    //         return Promise.reject(error);
-    //     }
-    // );
+  //         return config; 
+  //     },
+  //     error => {
+  //         return Promise.reject(error);
+  //     }
+  // );
 
-    const storedJwt = localStorage.getItem('token');
-    const [ jwt, setJwt ] = useState(storedJwt || null);
-    const [ fetchError, setFetchError ] = useState(null);
+  const [ loginForm, updateLoginForm ] = useState({
+    email: '',
+    password: ''
+  });
 
-    const [ loginForm, updateLoginForm ] = useState({
-        email: '',
-        password: ''
+  const handleLoginChange = (e) => {
+
+    const { name, value } = e.target;
+
+    updateLoginForm((prev) => {
+        
+      return {
+        ...prev,
+        [name]: value
+      };
     });
+  };
 
-    const handleLoginChange = (e) => {
+  const submitForm = async (email, password) => {
 
-        const { name, value } = e.target;
+    const credentials = {
+      email,
+      password
+    };
 
-        updateLoginForm((prev) => {
-            
-            return {
-                ...prev,
-                [name]: value
-            };
+    try {
+        
+      const { data } = await axios.post(`${apiUrl}signin`, credentials);
+
+      if (data) {
+        props.dispatch({
+          type: 'LOGIN',
+          isAuthenticated: true
         });
-    };
+      }
 
-    const submitForm = async (email, password) => {
+    } catch (err) {
+      console.trace(err);
+    }
+  };
 
-        const credentials = {
-          email,
-          password
-        };
+  return (
+    <>
+      <Header />
 
-        try {
-            
-            const { data } = await axios.post(`${apiUrl}signin`, credentials);
+      <div className='container container--login'>
+        <Form className='login-form'>
+          <Input className='login-form__input' id="email" inputValue={loginForm.email} onChange={handleLoginChange} />
 
-        } catch (err) {
-          console.trace(err);
-        }
-    };
+          <Input className='login-form__input' id="password" inputValue={loginForm.password} onChange={handleLoginChange} />
 
-    return (
-        <>
-            <Header />
+          <Button className='login-form__btn' onClick={ (e) => {
+            submitForm(loginForm.email, loginForm.password);
+            e.preventDefault();
+          } }>Submit</Button>
 
-            <div className='container container--login'>
-                <Form className='login-form'>
-                    <Input className='login-form__input' id="email" inputValue={loginForm.email} onChange={handleLoginChange} />
+          <Button className='login-form__btn' onClick={(e) => {
+            e.preventDefault();
+          }}>Show Token Data</Button>
+        </Form>
+      </div>
 
-                    <Input className='login-form__input' id="password" inputValue={loginForm.password} onChange={handleLoginChange} />
+      { props.isAuthenticated &&
+        <div>
+          <Link to={'/secret'}>
+            To the secret sauce
+          </Link>
+        </div>
+      }
 
-                    <Button className='login-form__btn' onClick={ (e) => {
-                      submitForm(loginForm.email, loginForm.password);
-                      e.preventDefault();
-                    } }>Submit</Button>
-
-                    <Button className='login-form__btn' onClick={(e) => {
-                        e.preventDefault();
-                        //console.log(jwt);
-                    }}>Show Token Data</Button>
-                </Form>
-            </div>
-        </>        
-    );
+    </>        
+  );
 };
 
-export default LoginPage;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(LoginPage);

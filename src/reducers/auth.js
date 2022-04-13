@@ -1,11 +1,14 @@
-const authReducer = (state = {}, action) => {
+const authReducer = (state = { isAuthenticated: false }, action) => {
 
     switch (action.type) {
 
         case 'LOGIN':
-            // return user ID
+            /**
+             * Boolean for whether or not Authenticated. ONLY FOR FRONTEND ROUTING.
+             * BACKEND requests handled via JWT
+             */
             return {
-                uid: action.uid
+                isAuthenticated: action.isAuthenticated
             };
 
         case 'LOGOUT':
