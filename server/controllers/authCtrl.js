@@ -85,8 +85,8 @@ exports.signin = (req, res) => {
 
     res.cookie('token', token, { httpOnly: true });
 
-    return token ? 
-      res.status(201).json({ message: "Auth Cookie created!"}) 
+    return token
+      ? res.status(201).json({ message: "Auth Cookie created!"}) 
       : res.status(500).json({ message: "Auth Cookie not created!"});
   });
 };
@@ -95,7 +95,7 @@ exports.signout = (req, res) => {
 
   res.clearCookie('token');
   res.status(200).json({
-    message: 'Signout successful.'
+    message: 'You are now signed out.'
   });
 };
 

@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 // routes
 const userAuthRoutes = require('./routes/userAuthRoutes');
 const userOpsRoutes = require('./routes/userOpsRoutes');
+const tokenCheckRoutes = require('./routes/tokenCheckRoutes');
 const jwt = require('express-jwt');
 
 const jwtParams = {
@@ -37,8 +38,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//app.use(jwt(jwtParams));
-
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
@@ -52,8 +51,10 @@ app.get('/', (req, res) => {
 // Set api auth routes
 app.use('/api', userAuthRoutes);
 
+app.use('/token', tokenCheckRoutes);
+
 // Set general application use routes
-app.use('/api', userOpsRoutes);
+app.use('/api', jwt(jwtParams), userOpsRoutes);
 
 let port = process.env.PORT || 3000;
 

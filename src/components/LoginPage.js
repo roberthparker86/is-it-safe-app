@@ -86,10 +86,6 @@ const LoginPage = (props) => {
             submitForm(loginForm.email, loginForm.password);
             e.preventDefault();
           } }>Submit</Button>
-
-          <Button className='login-form__btn' onClick={(e) => {
-            e.preventDefault();
-          }}>Show Token Data</Button>
         </Form>
       </div>
 
