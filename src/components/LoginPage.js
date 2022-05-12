@@ -4,32 +4,15 @@ import Header from './Header';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 
+
+
 const LoginPage = (props) => {
-
-  const apiUrl = 'http://localhost:8080/api/';
-
-  // axios.interceptors.request.use(
-  //     config => {
-
-  //         const { origin } = new URL(config.url);
-  //         const allowedOrigins = [apiUrl];
-  //         const token = localStorage.getItem('token');
-
-  //         // .includes() is an Array prototype method
-  //         if (allowedOrigins.includes(origin)) {
-  //             config.headers.authorization = `Bearer ${token}`;
-  //         };
-
-  //         return config; 
-  //     },
-  //     error => {
-  //         return Promise.reject(error);
-  //     }
-  // );
+  const dispatch = useDispatch();
+  const authStore = useSelector((store) => store.auth);
 
   const [ loginForm, updateLoginForm ] = useState({
     email: '',
@@ -40,15 +23,10 @@ const LoginPage = (props) => {
 
     const { name, value } = e.target;
 
-    updateLoginForm((prev) => {
-        
-      return {
-        ...prev,
-        [name]: value
-      };
-    });
+    updateLoginForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const apiUrl = 'http://localhost:8080/api/';
   const submitForm = async (email, password) => {
 
     const credentials = {
@@ -56,17 +34,15 @@ const LoginPage = (props) => {
       password
     };
 
-    try {
-        
+    try {        
       const { data } = await axios.post(`${apiUrl}signin`, credentials);
 
       if (data) {
-        props.dispatch({
+        dispatch({
           type: 'LOGIN',
           isAuthenticated: true
         });
       }
-
     } catch (err) {
       console.trace(err);
     }
@@ -89,7 +65,7 @@ const LoginPage = (props) => {
         </Form>
       </div>
 
-      { props.isAuthenticated &&
+      { authStore.isAuthenticated &&
         <div>
           <Link to={'/secret'}>
             To the secret sauce
@@ -101,8 +77,4 @@ const LoginPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps)(LoginPage);
+export default LoginPage;

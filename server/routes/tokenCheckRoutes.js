@@ -7,9 +7,9 @@ const jwtParams = {
   algorithms: ["HS256"]
 };
 
-route.get('/', jwt(jwtParams),
+route.post('/token', jwt(jwtParams),
   (req, res) => {
-    
+    console.log({ req, test: 'Test yo' });
     if (req.cookies.token) {
       return res.status(200);
     } else {

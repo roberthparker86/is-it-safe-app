@@ -50,8 +50,7 @@ app.get('/', (req, res) => {
 
 // Set api auth routes
 app.use('/api', userAuthRoutes);
-
-app.use('/token', tokenCheckRoutes);
+// app.use('/token', tokenCheckRoutes);
 
 // Set general application use routes
 app.use('/api', jwt(jwtParams), userOpsRoutes);

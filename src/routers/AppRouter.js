@@ -14,17 +14,17 @@ import Secret from '../components/Secret';
 export const history = createBrowserHistory();
 
 const AppRouter = () => (
-    // use history object in Router
-    <Router history={history} >
-        <>
-            <Switch>
-                <PublicRoute path='/' component={LoginPage} exact={true} />
-                <PrivateRoute path='/dashboard' component={MainContent} exact={true} />
-                <PrivateRoute path='/secret' component={Secret} exact={true} />
-                <Route component={NotFoundPage} />
-            </Switch>
-        </>
-    </Router>
+  // use history object in Router
+  <Router history={history} >
+    <>
+      <Switch>
+        <PublicRoute path='/' component={LoginPage} exact={true} />
+        <PrivateRoute path='/dashboard' component={MainContent} exact={true} />
+        <PrivateRoute path='/secret' component={Secret} exact={true} />
+        <Route component={NotFoundPage} />
+      </Switch>
+    </>
+  </Router>
 );
 
 export default AppRouter;
