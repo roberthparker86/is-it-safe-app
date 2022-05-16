@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Form from './Form';
 import Input from './Input';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const MainContent = (props) => {
+
+  const history = useHistory();
+  const authStore = useSelector((store) => store.auth);
+  const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
+  const currentLocation = useMemo(() => history.location.pathname, [history]);
+
+  useEffect(() => {
+    console.log({ isAuthenticated, currentLocation });
+    if (currentLocation !== '/') {
+      !isAuthenticated && history.replace('/');
+    }
+  }, [ currentLocation, isAuthenticated, history ]);
 
   const [ isClicked, setClick ] = useState(false);
 

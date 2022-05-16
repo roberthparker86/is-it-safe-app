@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-
-
-
+import { Link, useHistory } from 'react-router-dom';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const authStore = useSelector((store) => store.auth);
+  const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);  
+  const currentLocation = useMemo(() => history.location.pathname, [history]);
+
+  useEffect(() => {
+    if (currentLocation !== '/') {
+      !isAuthenticated && history.replace('/');
+    }
+  }, [currentLocation, isAuthenticated, history]);
 
   const [ loginForm, updateLoginForm ] = useState({
     email: '',
@@ -20,7 +26,6 @@ const LoginPage = (props) => {
   });
 
   const handleLoginChange = (e) => {
-
     const { name, value } = e.target;
 
     updateLoginForm((prev) => ({ ...prev, [name]: value }));
@@ -42,6 +47,7 @@ const LoginPage = (props) => {
           type: 'LOGIN',
           isAuthenticated: true
         });
+        history.push('/dashboard');
       }
     } catch (err) {
       console.trace(err);
@@ -65,7 +71,7 @@ const LoginPage = (props) => {
         </Form>
       </div>
 
-      { authStore.isAuthenticated &&
+      { isAuthenticated &&
         <div>
           <Link to={'/secret'}>
             To the secret sauce
