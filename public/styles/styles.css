@@ -42,7 +42,7 @@ input {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding: 3.5rem 0;
+  padding: 3.5rem 2rem;
   width: 100%; }
   .container.container--login {
     justify-content: center; }
@@ -122,6 +122,19 @@ header {
       background-color: #68B16A;
       transform: scale(105%); }
 
+header div.container {
+  flex-direction: row;
+  justify-content: space-between; }
+
+.signout__btn {
+  padding: 0;
+  background: none;
+  border: none;
+  color: #68B16A;
+  cursor: pointer; }
+  .signout__btn i.fa-sign-out-alt {
+    font-size: 3rem; }
+
 @media screen and (min-width: 992px) {
   .login-form {
     width: 50%; } }
@@ -138,7 +151,7 @@ header {
     font-size: 2.5rem;
     font-weight: 900;
     transition: all .15s ease-in-out;
-    width: 50%; }
+    width: 100%; }
     .container.container--main-content .btn-primary:hover {
       background-color: #68B16A;
       color: #1C2222; }
@@ -150,7 +163,7 @@ header {
     color: #ADB8AE;
     cursor: pointer;
     font-weight: 900;
-    margin-top: 2rem;
+    margin-top: 1rem;
     transition: all .15s ease-in-out; }
     .container.container--main-content .btn-secondary:hover {
       background-color: #ADB8AE;
@@ -164,10 +177,10 @@ header {
     overflow: hidden;
     padding: 0 3.5rem;
     transition: all .35s ease-in-out;
-    width: 50%; }
+    width: 100%; }
     .container.container--main-content .add-food__form.show {
       max-height: 1900px;
-      padding: 3.5rem; }
+      padding: 2rem; }
     .container.container--main-content .add-food__form .add-food__input-container {
       display: flex;
       flex-direction: column;
@@ -177,3 +190,13 @@ header {
     .container.container--main-content .add-food__form input {
       flex-grow: 1;
       padding: .5rem; }
+
+@media screen and (min-width: 992px) {
+  .container.container--main-content .btn-primary {
+    width: 50%; }
+  .container.container--main-content .btn-secondary {
+    margin-top: 2rem; }
+  .container.container--main-content .add-food__form {
+    width: 50%; }
+    .container.container--main-content .add-food__form.show {
+      padding: 3.5rem; } }

@@ -35,10 +35,27 @@ header {
         }
 
         &:hover {
-            background-color: $color-primary-green;
-            transform: scale(105%);
+          background-color: $color-primary-green;
+          transform: scale(105%);
         }
     }
+}
+
+header div.container {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.signout__btn {
+  padding: 0;
+  background: none;
+  border: none;
+  color: $color-primary-green;
+  cursor: pointer;
+
+  & i.fa-sign-out-alt {
+    font-size: 3rem;
+  }
 }
 
 @media screen and (min-width: $brk-lg)  {

@@ -5,68 +5,89 @@
     justify-content: center;
 
     .btn-primary {
-        background-color: $color-med-grey;
-        border: none;
-        color: $color-light-grey;
-        font-size: $font-desktop-md;
-        font-weight: $font-bold;
-        transition: all .15s ease-in-out;
-        width: 50%;
+      background-color: $color-med-grey;
+      border: none;
+      color: $color-light-grey;
+      font-size: $font-desktop-md;
+      font-weight: $font-bold;
+      transition: all .15s ease-in-out;
+      width: 100%;
 
-        &:hover {
-            background-color: $color-primary-green;
-            color: $color-dark-grey;
-        }
+      &:hover {
+        background-color: $color-primary-green;
+        color: $color-dark-grey;
+      }
 
-        &.btn.clicked {
-            border-radius: .25rem .25rem 0 0;
-        }
+      &.btn.clicked {
+        border-radius: .25rem .25rem 0 0;
+      }
     }
 
     .btn-secondary {
-        background-color: $color-dark-grey;
-        border: none;
-        color: $color-light-grey;
-        cursor: pointer;
-        font-weight: $font-bold;
-        margin-top: $spacer-md;
-        transition: all .15s ease-in-out;
+      background-color: $color-dark-grey;
+      border: none;
+      color: $color-light-grey;
+      cursor: pointer;
+      font-weight: $font-bold;
+      margin-top: $spacer-xs;
+      transition: all .15s ease-in-out;
 
-        &:hover {
-            background-color: $color-light-grey;
-            color: $color-dark-grey;
-        }
+      &:hover {
+        background-color: $color-light-grey;
+        color: $color-dark-grey;
+      }
     }
 
     .add-food__form {
-        background-color: $color-med-grey;
-        border-radius: 0 0 .25rem .25rem;
+      background-color: $color-med-grey;
+      border-radius: 0 0 .25rem .25rem;
+      display: flex;
+      flex-direction: column;
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 $spacer-xl;
+      transition: all .35s ease-in-out;
+      width: 100%;
+
+      &.show {
+        max-height: 1900px;
+        padding: $spacer-md;
+      }
+
+      .add-food__input-container {
         display: flex;
         flex-direction: column;
-        max-height: 0;
-        overflow: hidden;
-        padding: 0 $spacer-xl;
-        transition: all .35s ease-in-out;
-        width: 50%;
+        margin-bottom: $spacer-md;
+      }
 
-        &.show {
-            max-height: 1900px;
-            padding: $spacer-xl;
-        }
+      label {
+        margin-bottom: $spacer-xs;
+      }
 
-        .add-food__input-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: $spacer-md;
-        }
-
-        label {
-            margin-bottom: $spacer-xs;
-        }
-
-        input {
-            flex-grow: 1;
-            padding: .5rem;
-        }
+      input {
+        flex-grow: 1;
+        padding: .5rem;
+      }
     }
+}
+
+@media screen and (min-width: 992px) {
+  .container.container--main-content {
+
+    & .btn-primary {
+      width: 50%;
+    }
+
+    & .btn-secondary {
+      margin-top: $spacer-md;
+    }
+
+    & .add-food__form {
+      width: 50%;
+
+      &.show {
+        padding: $spacer-xl;
+      }
+    }
+  }
 }

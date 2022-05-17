@@ -35,8 +35,9 @@ const Header = (props) => {
               Is It Safe?
           </H1>
 
-          <Button onClick={signOut}>
-            Sign out Meow.
+          <Button className='signout__btn' onClick={signOut}>
+            <i className="fas fa-sign-out-alt"></i>
+            <h4>Signout</h4>
           </Button>
       </div>
     </header>

@@ -42,7 +42,7 @@ input {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    padding: $spacer-xl 0;
+    padding: $spacer-xl $spacer-md;
     width: 100%;
 
     &.container--login {
