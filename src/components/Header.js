@@ -1,17 +1,17 @@
 //import React, { useMemo, useEffect } from 'react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Button from './Button.js';
 import H1 from './H1.js';
 import axios from 'axios';
 //import { useSelector, useDispatch } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 const Header = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  //const authStore = useSelector((store) => store.auth);
-  //const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
+  const authStore = useSelector((store) => store.auth);
+  const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
 
   const signOut = async () => {
     const signOutUrl = 'http://localhost:8080/api/signout';
@@ -35,10 +35,13 @@ const Header = (props) => {
               Is It Safe?
           </H1>
 
+        { isAuthenticated && 
           <Button className='signout__btn' onClick={signOut}>
             <i className="fas fa-sign-out-alt"></i>
             <h4>Signout</h4>
           </Button>
+        }
+          
       </div>
     </header>
   );

@@ -64,10 +64,12 @@ const LoginPage = (props) => {
 
           <Input className='login-form__input' id="password" inputValue={loginForm.password} onChange={handleLoginChange} />
 
-          <Button className='login-form__btn' onClick={ (e) => {
+          <Button className='login-form__btn' onClick={(e) => {
             submitForm(loginForm.email, loginForm.password);
             e.preventDefault();
-          } }>Submit</Button>
+          }}>
+            Login
+          </Button>
         </Form>
       </div>
 
