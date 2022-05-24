@@ -11,6 +11,7 @@ const LoginPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const authStore = useSelector((store) => store.auth);
+  const userStore = useSelector((store) => store.user);
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);  
   const currentLocation = useMemo(() => history.location.pathname, [history]);
 
@@ -45,7 +46,8 @@ const LoginPage = (props) => {
       if (data) {
         dispatch({
           type: 'LOGIN',
-          isAuthenticated: true
+          isAuthenticated: true,
+          user: data.user
         });
         history.push('/dashboard');
       }
@@ -53,6 +55,8 @@ const LoginPage = (props) => {
       console.trace(err);
     }
   };
+
+  useEffect(() => console.log({ userStore }), [userStore]);
 
   return (
     <>

@@ -1,13 +1,11 @@
-const User = require("../models/userData");
-const shortId = require("shortid");
-const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
+const User = require('../models/userData');
+const shortId = require('shortid');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
 
 // user signup
 exports.signup = (req, res) => {
-
   User.findOne({ email: req.body.email }).exec((err, user) => {
-
     // Handle any unforseen errors
     if (err) {
       return res.status(400).json({
@@ -18,7 +16,7 @@ exports.signup = (req, res) => {
     // If user exists return 404 status and error
     if (user) {
       return res.status(400).json({
-        error: "Email is already taken"
+        error: 'Email is already taken'
       });
     }
 
@@ -28,7 +26,6 @@ exports.signup = (req, res) => {
     let newUser = new User({ firstName, lastName, email, password });
 
     newUser.save((err, success) => {
-
       if (err) {
         return res.status(400).json({
           error: err
@@ -36,7 +33,7 @@ exports.signup = (req, res) => {
       }
 
       res.status(200).json({
-        message: "Signup successfull. Please login."
+        message: 'Signup successfull. Please login.'
       });
     });
   });
@@ -44,16 +41,14 @@ exports.signup = (req, res) => {
 
 // user signin
 exports.signin = (req, res) => {
-
   const { email, password } = req.body;
 
-  
   User.findOne({ email }).exec((err, user) => {
-
     // check user existance
     if (!user) {
       return res.status(404).json({
-        error: 'User with that email does not exist. Please try again or signup.',
+        error:
+          'User with that email does not exist. Please try again or signup.',
         email,
         password
       });
@@ -79,20 +74,32 @@ exports.signin = (req, res) => {
 
     // authentication returns true
     // generate a token and send to client
-    const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     });
 
-    res.cookie('token', token, { httpOnly: true });
+    const userReturnData = {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      freezer: user.freezer,
+      refrigerator: user.refrigerator
+    };
 
-    return token
-      ? res.status(201).json({ message: "Auth Cookie created!"}) 
-      : res.status(500).json({ message: "Auth Cookie not created!"});
+    // res.cookie('token', token, { httpOnly: true });
+    // res.json({ user: userReturnData });
+
+    if (token) {
+      return res.status(201).cookie('token', token, { httpOnly: false }).json({
+        message: 'Auth Cookie created!',
+        user: userReturnData
+      });
+    }
+    return res.status(500).json({ message: 'Auth Cookie not created!' });
   });
 };
 
 exports.signout = (req, res) => {
-
   res.clearCookie('token');
   res.status(200).json({
     message: 'You are now signed out.'
@@ -100,29 +107,27 @@ exports.signout = (req, res) => {
 };
 
 exports.getUser = (req, res) => {
+  const id = req._id;
 
-    const id = req._id;
+  User.findById({ _id }).exec((err, user) => {
+    // User not found
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found'
+      });
+    }
 
-    User.findById({ _id }).exec((err, user) => {
+    // other errors
+    if (err) {
+      return res.status(400).json({
+        error: err
+      });
+    }
 
-        // User not found
-        if (!user) {
-            return res.status(404).json({
-                error: 'User not found'
-            });
-        }
-
-        // other errors
-        if (err) {
-            return res.status(400).json({
-                error: err
-            });
-        }
-
-        return res.status(200).json({
-            data: user
-        });
+    return res.status(200).json({
+      data: user
     });
+  });
 };
 
 // exports.requireSignin = expressJwt({
@@ -131,15 +136,13 @@ exports.getUser = (req, res) => {
 // });
 
 exports.authMiddleware = (req, res, next) => {
-
-  const authUserId = req.user._id
+  const authUserId = req.user._id;
 
   User.findById({ _id: authUserId }).exec((err, user) => {
-
     // user not found
     if (!user) {
       return res.status(400).json({
-        error: "User not found"
+        error: 'User not found'
       });
     }
 
@@ -156,11 +159,9 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 exports.adminMiddleware = (req, res, next) => {
-
   const adminUserId = req.user._id;
 
   User.findById({ _id: adminUserId }).exec((err, user) => {
-
     // user not found
     if (!user) {
       return res.status(400).json({

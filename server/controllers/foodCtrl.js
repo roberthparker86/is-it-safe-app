@@ -2,69 +2,48 @@ const Food = require('../models/foodData');
 const User = require('../models/userData');
 
 exports.addFood = async (req, res) => {
+  const { id, name, startTime, expireTime, compartment } = req.body;
 
-	const {
-    id,
-		name,
-		startTime,
-		expireTime,
-		compartment
-	} = req.body;
+  const food = new Food({
+    name,
+    startTime,
+    expireTime
+  });
 
-	const food = new Food({
-		name,
-		startTime,
-		expireTime
-	});
+  if (!food) {
+    return res.status(404).json({ message: 'Food not found' });
+  }
 
-	if (!food) {
-		return res.status(404).json({
-			message: 'Food not found',
-		});
-	}
+  const user = await User.findById({ _id: id });
 
-	const user = await User.findById({
-		_id: id
-	});
+  if (compartment === 'refrigerator') {
+    user.refrigerator.push(food);
+  } else if (compartment === 'freezer') {
+    user.freezer.push(food);
+  } else {
+    throw new Error('Compartment not found');
+  }
 
-	if (compartment === 'refrigerator') {
+  const result = await user.save();
 
-		user.refrigerator.push(food);
+  if (!result) {
+    return res.status(404).json({
+      message: 'Food not added'
+    });
+  }
 
-	} else if (compartment === 'freezer') {
-
-		user.freezer.push(food);
-
-	} else {
-    
-		throw new Error('Compartment not found');
-	}
-
-	const result = await user.save();
-
-	if (!result) {
-		return res.status(404).json({
-			message: 'Food not added',
-		});
-	}
-
-	return res.status(200).json({
-		message: 'Food added',
-		data: result
-	});
+  return res.status(200).json({
+    message: 'Food added',
+    data: result
+  });
 };
 
 exports.deleteFood = async (req, res) => {
-
-  const {
-    userId,
-    foodId,
-    compartment
-  } = req.body;
+  const { userId, foodId, compartment } = req.body;
 
   const user = await User.findById({
     _id: userId
-  })
+  });
 
   if (!user) {
     return res.status(404).json({
@@ -74,10 +53,8 @@ exports.deleteFood = async (req, res) => {
 
   if (compartment === 'freezer') {
     user.freezer.pull(foodId);
-
   } else if (compartment === 'refrigerator') {
     user.refrigerator.pull(foodId);
-
   } else {
     return res.status(404).json({
       message: 'Compartment not found'
@@ -88,12 +65,29 @@ exports.deleteFood = async (req, res) => {
 
   if (!result) {
     return res.status(404).json({
-      message: 'No result returned. Food not deleted',
+      message: 'No result returned. Food not deleted'
     });
   }
 
   return res.status(200).json({
     message: 'Food deleted',
     data: result
+  });
+};
+
+exports.getFood = async (req, res) => {
+  const { id } = req.body;
+
+  const user = await User.findById({ _id: id });
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found.' });
+  }
+
+  return res.status(200).json({
+    data: {
+      freezer: user.freezer,
+      refrigerator: user.refrigerator
+    }
   });
 };
