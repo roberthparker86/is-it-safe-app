@@ -74,6 +74,17 @@ body {
   font-size: 1.5rem;
   font-weight: 500; }
 
+h1 {
+  color: #68B16A;
+  font-family: "Caveat Brush", sans-serif;
+  font-size: 4.5rem; }
+
+h2 {
+  font-size: 3.5rem; }
+
+h3 {
+  font-size: 2.5rem; }
+
 .logo {
   color: #68B16A;
   font-family: "Caveat Brush", sans-serif;
@@ -90,6 +101,44 @@ label {
 @media (min-width: 1400px) {
   label {
     font-size: 1.5rem; } }
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  width: 100%; }
+  .grid .grid__column {
+    margin-bottom: 2rem;
+    padding: 0;
+    width: 100%; }
+    .grid .grid__column .grid__card {
+      background-color: #1C2222;
+      border: 3px solid #2F3737;
+      border-radius: .25rem;
+      display: flex;
+      filter: drop-shadow(0 0.75rem 0 #2F3737);
+      flex-direction: column;
+      padding: 1rem 1.5rem; }
+      .grid .grid__column .grid__card h2 {
+        line-height: 1;
+        margin-bottom: 0; }
+      .grid .grid__column .grid__card h3 {
+        font-weight: 300;
+        text-transform: uppercase; }
+      .grid .grid__column .grid__card.good h3 {
+        color: #68B16A; }
+
+@media screen and (min-width: 576px) {
+  .grid .grid__column {
+    width: 50%; } }
+
+@media screen and (min-width: 576px) {
+  .grid {
+    margin-top: 3.5rem; }
+    .grid .grid__column {
+      margin-bottom: 2.75rem;
+      padding: 0 1.5rem;
+      width: 33.33333333%; } }
 
 header {
   background-color: #1C2222;

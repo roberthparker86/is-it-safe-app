@@ -58,24 +58,6 @@ const MainContent = props => {
     }
   };
 
-  const getData = async id => {
-    const response = await axios.post('http://localhost:8080/api/get-food', id);
-
-    try {
-      const { data: { data }} = response; 
-      console.log(data);
-      dispatch({ 
-        type: 'GET_FOOD', 
-        freezer: data.freezer, 
-        refrigerator: data.refrigerator
-      });
-      setDidDataPost(false);
-    } catch (err) {
-      console.log({ err });
-      setDidDataPost(false);
-    }
-  };
-
   useEffect(() => {
     // const config = {
     //   headers: { Authorization: `Bearer ${token}`}
@@ -102,10 +84,33 @@ const MainContent = props => {
   ]);
 
   useEffect(() => {
+    const getData = async id => {
+      const response = await axios.post(
+        'http://localhost:8080/api/get-food',
+        id
+      );
+
+      try {
+        const {
+          data: { data }
+        } = response;
+        console.log(data);
+        dispatch({
+          type: 'GET_FOOD',
+          freezer: data.freezer,
+          refrigerator: data.refrigerator
+        });
+        setDidDataPost(false);
+      } catch (err) {
+        console.log({ err });
+        setDidDataPost(false);
+      }
+    };
+
     if (didDataPost) {
       getData({ id: user.id });
     }
-  }, [didDataPost, user.id]);
+  }, [didDataPost, user.id, dispatch]);
 
   return (
     <div className="container container--main-content">
@@ -167,14 +172,18 @@ const MainContent = props => {
           Add
         </button>
       </Form>
-      <ul>
-        {user.freezer.map(item => (
-          <li key={item._id}>{item.name}</li>
+
+      <section className="grid">
+        {user.freezer.map((item, index) => (
+          <div className="grid__column" key={item._id}>
+            <div className="grid__card good">
+              <h2>{item.expireTime}</h2>
+              <h3 className="text-green">Good</h3>
+              <h5>{item.name}</h5>
+            </div>
+          </div>
         ))}
-        {user.refrigerator.map(item => (
-          <li key={item._id}>{item.name}</li>
-        ))}
-      </ul>
+      </section>
     </div>
   );
 };

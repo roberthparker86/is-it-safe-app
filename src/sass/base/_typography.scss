@@ -4,6 +4,17 @@ body {
 	font-size: $font-desktop-sm;
 	font-weight: $font-reg;
 }
+h1 {
+  color: $color-primary-green;
+  font-family: $font-logo;
+  font-size: $font-desktop-xlg;
+}
+h2 {
+  font-size: $font-desktop-lg;
+}
+h3 {
+  font-size: $font-desktop-md;
+}
 
 .logo {
     color: $color-primary-green;

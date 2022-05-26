@@ -5,7 +5,7 @@ import Form from './Form';
 import Input from './Input';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const LoginPage = (props) => {
         history.push('/dashboard');
       }
     } catch (err) {
-      console.trace(err);
+      console.log(err);
     }
   };
 
@@ -76,15 +76,6 @@ const LoginPage = (props) => {
           </Button>
         </Form>
       </div>
-
-      { isAuthenticated &&
-        <div>
-          <Link to={'/secret'}>
-            To the secret sauce
-          </Link>
-        </div>
-      }
-
     </>        
   );
 };
