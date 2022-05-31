@@ -6,12 +6,13 @@ import Input from './Input';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { sortByTimeLeft } from '../controllers/controllers';
 
 const LoginPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const authStore = useSelector((store) => store.auth);
-  const userStore = useSelector((store) => store.user);
+  const authStore = useSelector(store => store.auth);
+  // const userStore = useSelector(store => store.user);
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);  
   const currentLocation = useMemo(() => history.location.pathname, [history]);
 
@@ -26,9 +27,8 @@ const LoginPage = (props) => {
     password: ''
   });
 
-  const handleLoginChange = (e) => {
+  const handleLoginChange = e => {
     const { name, value } = e.target;
-
     updateLoginForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -44,6 +44,8 @@ const LoginPage = (props) => {
       const { data } = await axios.post(`${apiUrl}signin`, credentials);
 
       if (data) {
+        data.user.freezer.sort((a, b) => sortByTimeLeft(a, b));
+        data.user.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
         dispatch({
           type: 'LOGIN',
           isAuthenticated: true,
@@ -56,7 +58,7 @@ const LoginPage = (props) => {
     }
   };
 
-  useEffect(() => console.log({ userStore }), [userStore]);
+  // useEffect(() => console.log({ userStore }), [userStore]);
 
   return (
     <>

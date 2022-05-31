@@ -1,9 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Form from './Form';
 import Input from './Input';
+import { ItemCard } from './ItemCard';
+import { CompartmentToggle } from './CompartmentToggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import {
+  setStatus,
+  getRemainingTime,
+  sortByTimeLeft
+} from '../controllers/controllers';
 
 const MainContent = props => {
   const history = useHistory();
@@ -31,6 +38,7 @@ const MainContent = props => {
   });
   const [isReadyPost, setIsReadyPost] = useState(false);
   const [didDataPost, setDidDataPost] = useState(false);
+  const [activeBtn, setActiveBtn] = useState('refrigerator');
 
   const { foodName, startDate, expiryDate, compartment } = inputValue;
 
@@ -39,6 +47,8 @@ const MainContent = props => {
 
     updateInputValue(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleDelete = (id) => console.log({id, user });
 
   const postData = async data => {
     const response = await axios.put(
@@ -55,6 +65,7 @@ const MainContent = props => {
       console.log({ err });
       setIsReadyPost(false);
       setClick(false);
+      updateInputValue({});
     }
   };
 
@@ -94,16 +105,19 @@ const MainContent = props => {
         const {
           data: { data }
         } = response;
-        console.log(data);
+        data.freezer.sort((a, b) => sortByTimeLeft(a, b));
+        data.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
         dispatch({
           type: 'GET_FOOD',
           freezer: data.freezer,
           refrigerator: data.refrigerator
         });
         setDidDataPost(false);
+        updateInputValue({});
       } catch (err) {
         console.log({ err });
         setDidDataPost(false);
+        updateInputValue({});
       }
     };
 
@@ -116,7 +130,7 @@ const MainContent = props => {
     <div className="container container--main-content">
       <button
         id="add"
-        className={isClicked ? 'btn btn-primary clicked' : 'btn btn-primary'}
+        className={isClicked ? 'btn btn-primary' : 'btn btn-primary'}
         onClick={() => setClick(!isClicked)}>
         + Add Food
       </button>
@@ -173,16 +187,30 @@ const MainContent = props => {
         </button>
       </Form>
 
+      <CompartmentToggle 
+        activeBtn={activeBtn}
+        setActiveBtn={setActiveBtn}
+      />
+
       <section className="grid">
-        {user.freezer.map((item, index) => (
-          <div className="grid__column" key={item._id}>
-            <div className="grid__card good">
-              <h2>{item.expireTime}</h2>
-              <h3 className="text-green">Good</h3>
-              <h5>{item.name}</h5>
-            </div>
-          </div>
-        ))}
+        {user[activeBtn].map(item => {
+          const remainingTime = getRemainingTime(
+            item.startTime,
+            item.expireTime
+          );
+          const status = setStatus(remainingTime);
+
+          return (
+            <ItemCard
+              id={item._id}
+              key={item._id}
+              status={status}
+              remainingTime={remainingTime}
+              name={item.name}
+              handleDelete={handleDelete}
+            />
+          );
+        })}
       </section>
     </div>
   );

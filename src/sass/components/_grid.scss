@@ -10,14 +10,13 @@
     width: 100%;
 
     .grid__card {
-      background-color: $color-dark-grey;
-      border: 3px solid $color-med-grey;
+      border-width: 3px;
+      border-style: solid;
       border-radius: .25rem;
       display: flex;
-      filter: drop-shadow(0 .75rem 0 $color-med-grey);
       flex-direction: column;
       padding: $spacer-xs $spacer-sm;
-
+      position: relative;
       h2 {
         line-height: 1;
         margin-bottom: 0;
@@ -26,33 +25,73 @@
         font-weight: $font-light;
         text-transform: uppercase;
       }
+      .grid__card--close-btn {
+        all: unset;
+        cursor: pointer;
+        position: absolute;
+        right: .5rem;
+        top: .5rem;
+      }
 
       &.good {
-        h3 {
+        background-color: $color-dark-grey;
+        border-color: $color-med-grey;
+        filter: drop-shadow(0 .75rem 0 $color-med-grey);
+
+        h3,
+        .grid__card--close-btn:hover {
           color: $color-primary-green;
-        }        
+        }      
+      }
+      &.bad {
+        background-color: $color-dark-red;
+        border-color: $color-med-red;
+        filter: drop-shadow(0 .75rem 0 $color-med-red);
+
+        h3,
+        .grid__card--close-btn:hover {
+          color: $color-primary-red;
+        }
+      }
+      &.warning {
+        background-color: $color-dark-yellow;
+        border-color: $color-med-yellow;
+        filter: drop-shadow(0 .75rem 0 $color-med-yellow);
+
+        h3,
+        .grid__card--close-btn:hover {
+          color: $color-primary-yellow;
+        }
       }
     }
   }
 }
 
 @media screen and (min-width: 576px) {
-  .grid {
-  
+  .grid {  
     .grid__column {
+      padding: 0 $spacer-sm;
       width: 50%;
     }
   }
 }
 
-@media screen and (min-width: 576px) {
+
+
+@media screen and (min-width: 992px) {
   .grid {
-    margin-top: $spacer-xl;
-    
+    margin-top: $spacer-xl;    
     .grid__column {
       margin-bottom: $spacer-lg;
-      padding: 0 $spacer-sm;
       width: 33.33333333%;
+    }
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .grid {    
+    .grid__column {
+      width: 25%;
     }
   }
 }

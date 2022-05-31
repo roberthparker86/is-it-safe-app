@@ -91,16 +91,37 @@ h3 {
   font-size: 4.5rem;
   font-weight: 900; }
 
-@media (min-width: 1400px) {
-  .logo {
-    font-size: 5rem; } }
-
 label {
   font-size: 1.5rem; }
 
 @media (min-width: 1400px) {
+  .logo {
+    font-size: 5rem; } }
+
+@media (min-width: 1400px) {
   label {
     font-size: 1.5rem; } }
+
+section.compartment-toggle {
+  display: flex;
+  margin-top: 2rem;
+  width: 100%; }
+  section.compartment-toggle button.btn.btn-primary {
+    border-radius: .25rem;
+    font-size: 1.5rem; }
+  section.compartment-toggle button.btn.btn-primary.active {
+    background-color: #68B16A;
+    color: #0E1515; }
+  section.compartment-toggle button#refrigerator {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; }
+  section.compartment-toggle button#freezer {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0; }
+
+@media screen and (min-width: 992px) {
+  section.compartment-toggle {
+    width: 50%; } }
 
 .grid {
   display: flex;
@@ -112,33 +133,62 @@ label {
     padding: 0;
     width: 100%; }
     .grid .grid__column .grid__card {
-      background-color: #1C2222;
-      border: 3px solid #2F3737;
+      border-width: 3px;
+      border-style: solid;
       border-radius: .25rem;
       display: flex;
-      filter: drop-shadow(0 0.75rem 0 #2F3737);
       flex-direction: column;
-      padding: 1rem 1.5rem; }
+      padding: 1rem 1.5rem;
+      position: relative; }
       .grid .grid__column .grid__card h2 {
         line-height: 1;
         margin-bottom: 0; }
       .grid .grid__column .grid__card h3 {
         font-weight: 300;
         text-transform: uppercase; }
-      .grid .grid__column .grid__card.good h3 {
-        color: #68B16A; }
+      .grid .grid__column .grid__card .grid__card--close-btn {
+        all: unset;
+        cursor: pointer;
+        position: absolute;
+        right: .5rem;
+        top: .5rem; }
+      .grid .grid__column .grid__card.good {
+        background-color: #1C2222;
+        border-color: #2F3737;
+        filter: drop-shadow(0 0.75rem 0 #2F3737); }
+        .grid .grid__column .grid__card.good h3,
+        .grid .grid__column .grid__card.good .grid__card--close-btn:hover {
+          color: #68B16A; }
+      .grid .grid__column .grid__card.bad {
+        background-color: #301D1D;
+        border-color: #543939;
+        filter: drop-shadow(0 0.75rem 0 #543939); }
+        .grid .grid__column .grid__card.bad h3,
+        .grid .grid__column .grid__card.bad .grid__card--close-btn:hover {
+          color: #E05252; }
+      .grid .grid__column .grid__card.warning {
+        background-color: #4A401C;
+        border-color: #706743;
+        filter: drop-shadow(0 0.75rem 0 #706743); }
+        .grid .grid__column .grid__card.warning h3,
+        .grid .grid__column .grid__card.warning .grid__card--close-btn:hover {
+          color: #D7B842; }
 
 @media screen and (min-width: 576px) {
   .grid .grid__column {
+    padding: 0 1.5rem;
     width: 50%; } }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 992px) {
   .grid {
     margin-top: 3.5rem; }
     .grid .grid__column {
       margin-bottom: 2.75rem;
-      padding: 0 1.5rem;
       width: 33.33333333%; } }
+
+@media screen and (min-width: 1400px) {
+  .grid .grid__column {
+    width: 25%; } }
 
 header {
   background-color: #1C2222;

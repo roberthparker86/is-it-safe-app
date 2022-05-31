@@ -1,0 +1,28 @@
+section.compartment-toggle {
+  display: flex;
+  margin-top: $spacer-md;
+  width:100%;
+
+  button.btn.btn-primary {
+    border-radius: .25rem;
+    font-size: $font-desktop-sm;
+  }
+  button.btn.btn-primary.active {
+    background-color: $color-primary-green;
+    color: $color-black;
+  }
+  button#refrigerator {  
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  button#freezer {  
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  section.compartment-toggle {
+    width: 50%;
+  }
+}
