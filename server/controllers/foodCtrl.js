@@ -71,7 +71,14 @@ exports.deleteFood = async (req, res) => {
 
   return res.status(200).json({
     message: 'Food deleted',
-    data: result
+    data: {
+      id: result._id,
+      email: result.email,
+      firstName: result.firstName,
+      freezer: result.freezer,
+      lastName: result.lastName,
+      refrigerator: result.refrigerator
+    }
   });
 };
 

@@ -12,7 +12,6 @@ const LoginPage = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const authStore = useSelector(store => store.auth);
-  // const userStore = useSelector(store => store.user);
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);  
   const currentLocation = useMemo(() => history.location.pathname, [history]);
 

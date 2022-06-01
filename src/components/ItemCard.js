@@ -8,7 +8,11 @@ export const ItemCard = props => (
       <h4>{props.name}</h4>
       <button
         className="grid__card--close-btn"
-        onClick={() => props.handleDelete(props.id)}>
+        onClick={() => props.handleDelete({
+          userId: props.user.id,
+          foodId: props.id,
+          compartment: props.compartment
+        })}>
         <i className="fas fa-times fa-2x"></i>
       </button>
     </div>

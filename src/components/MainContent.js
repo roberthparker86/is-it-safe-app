@@ -19,7 +19,9 @@ const MainContent = props => {
   const userStore = useSelector(store => store.user);
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
   const currentLocation = useMemo(() => history.location.pathname, [history]);
-  const user = useMemo(() => userStore.user, [userStore]);
+  const user = useMemo(() => userStore, [userStore]);
+
+  useEffect(() => console.log(user), [userStore]);
 
   useEffect(() => {
     console.log({ isAuthenticated, currentLocation });
@@ -48,7 +50,25 @@ const MainContent = props => {
     updateInputValue(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleDelete = (id) => console.log({id, user });
+  const handleDelete = async data => {
+    const response = await axios.post(
+      'http://localhost:8080/api/delete-food',
+      data
+    );
+
+    try {
+      if (response.status === 200) {
+        console.log(response.data.data);
+        dispatch({
+          type: 'UPDATE_FOOD',
+          freezer: response.data.data.freezer,
+          refrigerator: response.data.data.refrigerator
+        });
+      }
+    } catch (err) {
+      console.log({ err });
+    }
+  };
 
   const postData = async data => {
     const response = await axios.put(
@@ -108,7 +128,7 @@ const MainContent = props => {
         data.freezer.sort((a, b) => sortByTimeLeft(a, b));
         data.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
         dispatch({
-          type: 'GET_FOOD',
+          type: 'UPDATE_FOOD',
           freezer: data.freezer,
           refrigerator: data.refrigerator
         });
@@ -187,30 +207,30 @@ const MainContent = props => {
         </button>
       </Form>
 
-      <CompartmentToggle 
-        activeBtn={activeBtn}
-        setActiveBtn={setActiveBtn}
-      />
+      <CompartmentToggle activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
 
       <section className="grid">
-        {user[activeBtn].map(item => {
-          const remainingTime = getRemainingTime(
-            item.startTime,
-            item.expireTime
-          );
-          const status = setStatus(remainingTime);
+        {user[activeBtn] &&
+          user[activeBtn].map(item => {
+            const remainingTime = getRemainingTime(
+              item.startTime,
+              item.expireTime
+            );
+            const status = setStatus(remainingTime);
 
-          return (
-            <ItemCard
-              id={item._id}
-              key={item._id}
-              status={status}
-              remainingTime={remainingTime}
-              name={item.name}
-              handleDelete={handleDelete}
-            />
-          );
-        })}
+            return (
+              <ItemCard
+                id={item._id}
+                key={item._id}
+                status={status}
+                remainingTime={remainingTime}
+                name={item.name}
+                handleDelete={handleDelete}
+                user={user}
+                compartment={activeBtn}
+              />
+            );
+          })}
       </section>
     </div>
   );
