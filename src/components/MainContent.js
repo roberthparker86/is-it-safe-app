@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Form from './Form';
 import Input from './Input';
 import { ItemCard } from './ItemCard';
@@ -21,8 +21,6 @@ const MainContent = props => {
   const currentLocation = useMemo(() => history.location.pathname, [history]);
   const user = useMemo(() => userStore, [userStore]);
 
-  useEffect(() => console.log(user), [userStore]);
-
   useEffect(() => {
     console.log({ isAuthenticated, currentLocation });
     if (currentLocation !== '/') {
@@ -39,7 +37,6 @@ const MainContent = props => {
     compartment: ''
   });
   const [isReadyPost, setIsReadyPost] = useState(false);
-  const [didDataPost, setDidDataPost] = useState(false);
   const [activeBtn, setActiveBtn] = useState('refrigerator');
 
   const { foodName, startDate, expiryDate, compartment } = inputValue;
@@ -59,10 +56,15 @@ const MainContent = props => {
     try {
       if (response.status === 200) {
         console.log(response.data.data);
+        const { freezer, refrigerator } = response.data.data;
+
+        freezer.sort((a, b) => sortByTimeLeft(a, b));
+        refrigerator.sort((a, b) => sortByTimeLeft(a, b));
+
         dispatch({
           type: 'UPDATE_FOOD',
-          freezer: response.data.data.freezer,
-          refrigerator: response.data.data.refrigerator
+          freezer,
+          refrigerator
         });
       }
     } catch (err) {
@@ -70,7 +72,7 @@ const MainContent = props => {
     }
   };
 
-  const postData = async data => {
+  const postData = useCallback(async data => {
     const response = await axios.put(
       'http://localhost:8080/api/add-food',
       data
@@ -78,16 +80,27 @@ const MainContent = props => {
 
     try {
       console.log({ response });
+      const { freezer, refrigerator } = response.data.data;
+
+      freezer.sort((a, b) => sortByTimeLeft(a, b));
+      refrigerator.sort((a, b) => sortByTimeLeft(a, b));
+
+      dispatch({
+        type: 'UPDATE_FOOD',
+        freezer,
+        refrigerator
+      });
+
       setIsReadyPost(false);
       setClick(false);
-      setDidDataPost(true);
+      updateInputValue({});
     } catch (err) {
       console.log({ err });
       setIsReadyPost(false);
       setClick(false);
       updateInputValue({});
     }
-  };
+  }, [setIsReadyPost, dispatch]); 
 
   useEffect(() => {
     // const config = {
@@ -102,7 +115,7 @@ const MainContent = props => {
         compartment
       };
 
-      postData(dataToPost);
+      postData(dataToPost);      
     }
   }, [
     isReadyPost,
@@ -111,40 +124,41 @@ const MainContent = props => {
     user.id,
     startDate,
     foodName,
-    expiryDate
+    expiryDate,
+    postData
   ]);
 
-  useEffect(() => {
-    const getData = async id => {
-      const response = await axios.post(
-        'http://localhost:8080/api/get-food',
-        id
-      );
+  // useEffect(() => {
+  //   const getData = async id => {
+  //     const response = await axios.post(
+  //       'http://localhost:8080/api/get-food',
+  //       id
+  //     );
 
-      try {
-        const {
-          data: { data }
-        } = response;
-        data.freezer.sort((a, b) => sortByTimeLeft(a, b));
-        data.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
-        dispatch({
-          type: 'UPDATE_FOOD',
-          freezer: data.freezer,
-          refrigerator: data.refrigerator
-        });
-        setDidDataPost(false);
-        updateInputValue({});
-      } catch (err) {
-        console.log({ err });
-        setDidDataPost(false);
-        updateInputValue({});
-      }
-    };
+  //     try {
+  //       const {
+  //         data: { data }
+  //       } = response;
+  //       data.freezer.sort((a, b) => sortByTimeLeft(a, b));
+  //       data.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
+  //       dispatch({
+  //         type: 'UPDATE_FOOD',
+  //         freezer: data.freezer,
+  //         refrigerator: data.refrigerator
+  //       });
+  //       setDidDataPost(false);
+  //       updateInputValue({});
+  //     } catch (err) {
+  //       console.log({ err });
+  //       setDidDataPost(false);
+  //       updateInputValue({});
+  //     }
+  //   };
 
-    if (didDataPost) {
-      getData({ id: user.id });
-    }
-  }, [didDataPost, user.id, dispatch]);
+  //   if (didDataPost) {
+  //     getData({ id: user.id });
+  //   }
+  // }, [didDataPost, user.id, dispatch]);
 
   return (
     <div className="container container--main-content">

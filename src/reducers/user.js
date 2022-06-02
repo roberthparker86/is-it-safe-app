@@ -12,7 +12,6 @@ const userReducer = (state = {}, action) => {
           return {};
 
       case 'UPDATE_FOOD':
-        console.log({...state});
         return {
           ...state,
           freezer: action.freezer,
