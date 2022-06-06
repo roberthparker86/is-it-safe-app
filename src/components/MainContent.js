@@ -15,18 +15,13 @@ import {
 const MainContent = props => {
   const history = useHistory();
   const dispatch = useDispatch();
+  //stores
   const authStore = useSelector(store => store.auth);
   const userStore = useSelector(store => store.user);
+  // Memoized variables
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
   const currentLocation = useMemo(() => history.location.pathname, [history]);
   const user = useMemo(() => userStore, [userStore]);
-
-  useEffect(() => {
-    console.log({ isAuthenticated, currentLocation });
-    if (currentLocation !== '/') {
-      !isAuthenticated && history.replace('/');
-    }
-  }, [currentLocation, isAuthenticated, history]);
 
   // State
   const [isClicked, setClick] = useState(false);
@@ -37,7 +32,7 @@ const MainContent = props => {
     compartment: ''
   });
   const [isReadyPost, setIsReadyPost] = useState(false);
-  const [activeBtn, setActiveBtn] = useState('refrigerator');
+  const [displayedCompartment, setDisplayedCompartment] = useState('refrigerator');
 
   const { foodName, startDate, expiryDate, compartment } = inputValue;
 
@@ -100,12 +95,16 @@ const MainContent = props => {
       setClick(false);
       updateInputValue({});
     }
-  }, [setIsReadyPost, dispatch]); 
+  }, [setIsReadyPost, dispatch]);
+
+  // Use Effects
+  useEffect(() => {
+    if (currentLocation !== '/') {
+      !isAuthenticated && history.replace('/');
+    }
+  }, [currentLocation, isAuthenticated, history]);
 
   useEffect(() => {
-    // const config = {
-    //   headers: { Authorization: `Bearer ${token}`}
-    // }
     if (isReadyPost) {
       const dataToPost = {
         id: user.id,
@@ -127,38 +126,6 @@ const MainContent = props => {
     expiryDate,
     postData
   ]);
-
-  // useEffect(() => {
-  //   const getData = async id => {
-  //     const response = await axios.post(
-  //       'http://localhost:8080/api/get-food',
-  //       id
-  //     );
-
-  //     try {
-  //       const {
-  //         data: { data }
-  //       } = response;
-  //       data.freezer.sort((a, b) => sortByTimeLeft(a, b));
-  //       data.refrigerator.sort((a, b) => sortByTimeLeft(a, b));
-  //       dispatch({
-  //         type: 'UPDATE_FOOD',
-  //         freezer: data.freezer,
-  //         refrigerator: data.refrigerator
-  //       });
-  //       setDidDataPost(false);
-  //       updateInputValue({});
-  //     } catch (err) {
-  //       console.log({ err });
-  //       setDidDataPost(false);
-  //       updateInputValue({});
-  //     }
-  //   };
-
-  //   if (didDataPost) {
-  //     getData({ id: user.id });
-  //   }
-  // }, [didDataPost, user.id, dispatch]);
 
   return (
     <div className="container container--main-content">
@@ -221,11 +188,11 @@ const MainContent = props => {
         </button>
       </Form>
 
-      <CompartmentToggle activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
+      <CompartmentToggle displayedCompartment={displayedCompartment} setDisplayedCompartment={setDisplayedCompartment} />
 
       <section className="grid">
-        {user[activeBtn] &&
-          user[activeBtn].map(item => {
+        {user[displayedCompartment] &&
+          user[displayedCompartment].map(item => {
             const remainingTime = getRemainingTime(
               item.startTime,
               item.expireTime
@@ -241,7 +208,7 @@ const MainContent = props => {
                 name={item.name}
                 handleDelete={handleDelete}
                 user={user}
-                compartment={activeBtn}
+                compartment={displayedCompartment}
               />
             );
           })}

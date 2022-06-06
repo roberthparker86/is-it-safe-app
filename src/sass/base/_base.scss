@@ -1,77 +1,91 @@
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-	font-size: 62.5%;
+  font-size: 62.5%;
 }
 @media screen and (min-width: $brk-4k) {
-    html {
-        font-size: 100%;
-    }
+  html {
+    font-size: 100%;
+  }
 }
 
 body {
-	background-color: $color-black;
+  background-color: $color-black;
 }
 
-input, button {
-    border-radius: .25rem;
-    outline: none;
+a {
+  text-decoration: none;
+  color: $color-light-grey;
+
+  &:hover {
+    color: $color-primary-green;
+  }
+}
+
+input,
+button {
+  border-radius: 0.25rem;
+  outline: none;
 }
 
 .btn {
-    border-radius: .25rem;
-    cursor: pointer;
-    padding: .5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 input {
-    background-color: $color-dark-grey;
-    border: 2px solid $color-light-grey;
-    color: $color-light-grey;
-    filter: drop-shadow(0 .5rem 0 $color-light-grey);
-    min-width: 24rem;            
-    padding: .5rem .5rem;
+  background-color: $color-dark-grey;
+  border: 2px solid $color-light-grey;
+  color: $color-light-grey;
+  filter: drop-shadow(0 0.5rem 0 $color-light-grey);
+  min-width: 24rem;
+  padding: 0.5rem 0.5rem;
 }
 
 .container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    padding: $spacer-xl $spacer-md;
-    width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: $spacer-xl $spacer-md;
+  width: 100%;
 
-    &.container--login {
-        justify-content: center;
-    }
+  &.container--login {
+    justify-content: center;
+  }
 }
 @media (min-width: $brk-md) {
-    .container {
-        flex-direction: row;
-        max-width: 720px;
+  .container {
+    flex-direction: row;
+    max-width: 720px;
+
+    &.container--login {
+      flex-direction: column;
     }
+  }
 }
 @media (min-width: $brk-lg) {
-    .container {
-        max-width: $brk-md;
-    }
+  .container {
+    max-width: $brk-md;
+  }
 }
 @media (min-width: $brk-xl) {
-    .container {
-        max-width: $brk-lg;
-    }
+  .container {
+    max-width: $brk-lg;
+  }
 }
 @media (min-width: $brk-xxl) {
-    .container {
-        max-width: $brk-xl;
-    }
+  .container {
+    max-width: $brk-xl;
+  }
 }
 @media screen and (min-width: $brk-4k) {
-    .container {
-        max-width: 2200px;
-    }    
+  .container {
+    max-width: 2200px;
+  }
 }

@@ -5,7 +5,7 @@ import Form from './Form';
 import Input from './Input';
 import Button from './Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { sortByTimeLeft } from '../controllers/controllers';
 
 const LoginPage = (props) => {
@@ -76,6 +76,7 @@ const LoginPage = (props) => {
             Login
           </Button>
         </Form>
+        <h4>or <Link to='/signup'>Sign Up</Link></h4>
       </div>
     </>        
   );

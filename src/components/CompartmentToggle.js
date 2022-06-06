@@ -5,13 +5,13 @@ export const CompartmentToggle = props => (
     <button
       id="refrigerator"
       className={
-        props.activeBtn === 'refrigerator'
+        props.displayedCompartment === 'refrigerator'
           ? 'btn btn-primary active'
           : 'btn btn-primary'
       }
       onClick={e => {
         e.preventDefault();
-        props.setActiveBtn(e.target.id);
+        props.setDisplayedCompartment(e.target.id);
       }}>
       Refrigerator
     </button>
@@ -19,11 +19,11 @@ export const CompartmentToggle = props => (
     <button
       id="freezer"
       className={
-        props.activeBtn === 'freezer' ? 'btn btn-primary active' : 'btn btn-primary'
+        props.displayedCompartment === 'freezer' ? 'btn btn-primary active' : 'btn btn-primary'
       }
       onClick={e => {
         e.preventDefault();
-        props.setActiveBtn(e.target.id);
+        props.setDisplayedCompartment(e.target.id);
       }}>
       Freezer
     </button>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
+import SignUpPage from '../components/SignUpPage.js';
 import LoginPage from '../components/LoginPage.js';
-import MainContent from '../components/MainContent';
+import MainContent from '../components/MainContent.js';
 import PublicRoute from './PublicRoute.js';
 import PrivateRoute from './PrivateRoute.js';
 import NotFoundPage from '../components/NotFoundPage.js';
@@ -19,6 +20,7 @@ const AppRouter = () => (
     <>
       <Switch>
         <PublicRoute path='/' component={LoginPage} exact={true} />
+        <PublicRoute path='/signup' component={SignUpPage} exact={true} />
         <PrivateRoute path='/dashboard' component={MainContent} exact={true} />
         <PrivateRoute path='/secret' component={Secret} exact={true} />
         <Route component={NotFoundPage} />
