@@ -9,13 +9,13 @@ const mongoose = require('mongoose');
 // routes
 const userAuthRoutes = require('./routes/userAuthRoutes');
 const userOpsRoutes = require('./routes/userOpsRoutes');
-const jwt = require('express-jwt');
+// const jwt = require('express-jwt');
 
-const jwtParams = {
-  secret: process.env.JWT_SECRET,
-  algorithms: ["RS256"],
-  getToken: req => req.cookies.token
-};
+// const jwtParams = {
+//   secret: process.env.JWT_SECRET,
+//   algorithms: ["HS256"],
+//   getToken: req => req.cookies.token
+// };
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.use('/api', userAuthRoutes);
 // app.use('/token', tokenCheckRoutes);
 
 // Set general application use routes
-//app.use('/api', jwt(jwtParams), userOpsRoutes);
+// app.use('/api', jwt(jwtParams), userOpsRoutes);
 app.use('/api', userOpsRoutes);
 
 let port = process.env.PORT || 3000;

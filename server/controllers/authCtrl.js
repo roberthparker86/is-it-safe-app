@@ -2,6 +2,12 @@ const User = require('../models/userData');
 const shortId = require('shortid');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const dayjs = require('dayjs');
+
+/**
+ * NOTE: knock out the JWT for now. A simple hashed password is enough
+ * for this app. Will implement more later.
+ */
 
 // user signup
 exports.signup = (req, res) => {
@@ -30,7 +36,7 @@ exports.signup = (req, res) => {
         });
       }
 
-      res.status(200).json({
+      res.status(201).json({
         message: 'Signup successfull.'
       });
     });
@@ -67,33 +73,36 @@ exports.signin = (req, res) => {
       });
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1h'
-    });
+    // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    //   expiresIn: '1h'
+    // });
 
     const userReturnData = {
       id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       freezer: user.freezer,
-      refrigerator: user.refrigerator
+      refrigerator: user.refrigerator,
+      timestamp: dayjs()
     };
+
+    return res.status(200).json({ user: userReturnData });
 
     // res.cookie('token', token, { httpOnly: true });
     // res.json({ user: userReturnData });
 
-    if (token) {
-      return res.status(201).cookie('token', token, { httpOnly: false }).json({
-        message: 'Auth Cookie created!',
-        user: userReturnData
-      });
-    }
-    return res.status(500).json({ message: 'Auth Cookie not created!' });
+    // if (token) {
+    //   return res.status(201).cookie('token', token, { httpOnly: true }).json({
+    //     message: 'Auth Cookie created!',
+    //     user: userReturnData
+    //   });
+    // }
+    // return res.status(500).json({ message: 'Auth Cookie not created!' });
   });
 };
 
 exports.signout = (req, res) => {
-  res.clearCookie('token');
+  // res.clearCookie('token');
   res.status(200).json({
     message: 'You are now signed out.'
   });

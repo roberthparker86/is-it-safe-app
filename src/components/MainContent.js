@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { 
+  useCallback, 
+  useEffect, 
+  useMemo, 
+  useState 
+} from 'react';
 import Form from './Form';
 import Input from './Input';
 import { ItemCard } from './ItemCard';
@@ -6,6 +11,7 @@ import { CompartmentToggle } from './CompartmentToggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import {
   setStatus,
   getRemainingTime,
@@ -27,7 +33,7 @@ const MainContent = props => {
   const [isClicked, setClick] = useState(false);
   const [inputValue, updateInputValue] = useState({
     foodName: '',
-    startDate: '',
+    startDate: dayjs().format('YYYY-MM-DD'),
     expiryDate: '',
     compartment: ''
   });
@@ -109,8 +115,8 @@ const MainContent = props => {
       const dataToPost = {
         id: user.id,
         name: foodName,
-        startTime: startDate,
-        expireTime: expiryDate,
+        startTime: dayjs(startDate).format(),
+        expireTime: dayjs(expiryDate).format(),
         compartment
       };
 
@@ -126,6 +132,8 @@ const MainContent = props => {
     expiryDate,
     postData
   ]);
+
+  if (user) console.log({ user });
 
   return (
     <div className="container container--main-content">
@@ -148,6 +156,7 @@ const MainContent = props => {
         />
 
         <Input
+          type="date"
           className="add-food__input-container"
           labelText="Date Cooked/Opened"
           id="startDate"
@@ -158,6 +167,7 @@ const MainContent = props => {
         />
 
         <Input
+          type="date"
           className="add-food__input-container"
           labelText="Expiry Date"
           id="expiryDate"

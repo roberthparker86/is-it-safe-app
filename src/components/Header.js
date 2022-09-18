@@ -34,14 +34,12 @@ const Header = (props) => {
           <H1 className='logo'>
               Is It Safe?
           </H1>
-
         { isAuthenticated && 
           <Button className='signout__btn' onClick={signOut}>
             <i className="fas fa-sign-out-alt"></i>
             <h4>Signout</h4>
           </Button>
-        }
-          
+        }          
       </div>
     </header>
   );

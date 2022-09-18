@@ -1,4 +1,8 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { 
+  // useMemo, 
+  useState, 
+  // useEffect 
+} from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Form from './Form';
@@ -24,7 +28,7 @@ const LoginPage = props => {
   const apiUrl = 'http://localhost:8080/api/';
   const submitForm = async (email, password) => {
     const credentials = {
-      email,
+      email: email.toLowerCase(),
       password
     };
 
@@ -47,7 +51,6 @@ const LoginPage = props => {
   return (
     <>
       <Header />
-
       <div className="container container--login">
         <h4>
           Please enter a valid email address and password to create a user
