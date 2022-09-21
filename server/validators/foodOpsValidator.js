@@ -11,11 +11,11 @@ exports.addFoodValidator = [
 		})
 		.withMessage('Invalid input: must be a string of valid characters.'),
 	body('startTime')
-		.isInt()
-		.withMessage('Invalid input: must be an integer.'),
+		.isString()
+		.withMessage('Invalid input: must be a string in date format.'),
 	body('expireTime')
-		.isInt()
-		.withMessage('Invalid input: must be an integer.'),
+		.isString()
+		.withMessage('Invalid input: must be a string in date format.'),
 	body('compartment')
 		.custom((compartment, { req }) => {
 			return (compartment === 'freezer' || compartment === 'refrigerator');	

@@ -86,6 +86,8 @@ const MainContent = props => {
       freezer.sort((a, b) => sortByTimeLeft(a, b));
       refrigerator.sort((a, b) => sortByTimeLeft(a, b));
 
+      console.log({ freezer, refrigerator });
+
       dispatch({
         type: 'UPDATE_FOOD',
         freezer,
@@ -117,7 +119,7 @@ const MainContent = props => {
         name: foodName,
         startTime: dayjs(startDate).format(),
         expireTime: dayjs(expiryDate).format(),
-        compartment
+        compartment: compartment.toLowerCase()
       };
 
       postData(dataToPost);      
@@ -132,8 +134,6 @@ const MainContent = props => {
     expiryDate,
     postData
   ]);
-
-  if (user) console.log({ user });
 
   return (
     <div className="container container--main-content">
