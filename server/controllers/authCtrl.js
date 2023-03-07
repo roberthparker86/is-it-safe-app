@@ -1,13 +1,9 @@
 const User = require('../models/userData');
-const shortId = require('shortid');
+// const shortId = require('shortid');
 const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
+// const expressJwt = require('express-jwt');
 const dayjs = require('dayjs');
-
-/**
- * NOTE: knock out the JWT for now. A simple hashed password is enough
- * for this app. Will implement more later.
- */
+const { use } = require('../routes/userAuthRoutes');
 
 // user signup
 exports.signup = (req, res) => {
@@ -25,9 +21,9 @@ exports.signup = (req, res) => {
       });
     }
 
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, email, password } = req.body;
 
-    let newUser = new User({ firstName, lastName, email, password });
+    let newUser = new User({ firstName, email, password });
 
     newUser.save((err, success) => {
       if (err) {
@@ -37,10 +33,11 @@ exports.signup = (req, res) => {
       }
 
       res.status(201).json({
-        message: 'Signup successfull.'
+        message: 'Signup successfull.',
+        success: success.firstName
       });
-    });
-  });
+    }); 
+  }); 
 };
 
 // user signin
@@ -73,9 +70,11 @@ exports.signin = (req, res) => {
       });
     }
 
-    // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: '1h'
-    // });
+    const token = jwt.sign({
+      _id: user._id 
+    }, process.env.JWT_SECRET, {
+      expiresIn: '5 minutes' 
+    });
 
     const userReturnData = {
       id: user._id,
@@ -86,54 +85,72 @@ exports.signin = (req, res) => {
       timestamp: dayjs()
     };
 
-    return res.status(200).json({ user: userReturnData });
+    console.log(token);
 
-    // res.cookie('token', token, { httpOnly: true });
-    // res.json({ user: userReturnData });
+    if (token) {
+      return  res
+        .status(201)
+        .cookie('token', token, { 
+          httpOnly: true,
+          secure: true 
+        })
+        .json({
+          message: 'Auth Cookie created!',
+          user: userReturnData
+        });
+    }
 
-    // if (token) {
-    //   return res.status(201).cookie('token', token, { httpOnly: true }).json({
-    //     message: 'Auth Cookie created!',
-    //     user: userReturnData
-    //   });
-    // }
-    // return res.status(500).json({ message: 'Auth Cookie not created!' });
+    return res
+      .status(500)
+      .json({ message: 'Auth Cookie not created!' });
   });
 };
 
 exports.signout = (req, res) => {
-  // res.clearCookie('token');
+  res.clearCookie('token');
   res.status(200).json({
     message: 'You are now signed out.'
   });
 };
 
 exports.getUser = (req, res) => {
-  const id = req._id;
+  const _id = req.query._id,
+    token = req.cookies.token;
 
-  User.findById({ _id }).exec((err, user) => {
-    if (!user) {
-      return res.status(404).json({
-        error: 'User not found'
-      });
-    }
+  console.log(req.cookies, req.cookie);
 
-    if (err) {
-      return res.status(400).json({
-        error: err
-      });
-    }
+  if (!token) return res.status(401).send({ error: 'Access denied. No token provided.' });
 
-    return res.status(200).json({
-      data: user
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+
+    User.findById({ _id }).exec((err, user) => {
+      if (!user) {
+        return res.status(404).json({
+          error: 'User not found'
+        });
+      }
+  
+      if (err) {
+        return res.status(400).json({
+          error: err
+        });
+      }
+
+      const userData = {
+        id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+        refrigerator: user.refrigerator,
+        freezer: user.freezer
+      };
+  
+      return res.status(200).json({ data: userData });
     });
-  });
+  } catch (err) {
+    return res.status(401).send({ error: 'Access denied. Invalid token.' });
+  }
 };
-
-// exports.requireSignin = expressJwt({
-//   secret: process.env.JWT_SECRET,
-//   algorithms: ["HS256"]
-// });
 
 exports.authMiddleware = (req, res, next) => {
   const authUserId = req.user._id;

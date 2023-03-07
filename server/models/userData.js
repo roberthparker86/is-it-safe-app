@@ -12,7 +12,6 @@ const User = new Schema({
       required: true,
       max: 30 
     },
-    lastName: String,
 
     email: { 
       type: String, 

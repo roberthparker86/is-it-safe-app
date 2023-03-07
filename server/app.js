@@ -22,15 +22,17 @@ const app = express();
 // Avoid deprecation warning for mongoose
 mongoose.set('useCreateIndex', true);
 
+const dbURL = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ac-pw7t6fx-shard-00-00.81fes9c.mongodb.net:27017,ac-pw7t6fx-shard-00-01.81fes9c.mongodb.net:27017,ac-pw7t6fx-shard-00-02.81fes9c.mongodb.net:27017/?ssl=true&replicaSet=atlas-139i19-shard-0&authSource=admin&retryWrites=true&w=majority`;
+
 // database connect
 mongoose
-  .connect(process.env.DATABASE, {
+  .connect(dbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
   })
   .then(() => console.log("Users database connected"))
-  .catch((err) => console.log(err.message));
+  .catch((err) => console.log(err));
 
 // middleware
 app.use(morgan('dev'));
@@ -49,10 +51,8 @@ app.get('/', (req, res) => {
 
 // Set api auth routes
 app.use('/api', userAuthRoutes);
-// app.use('/token', tokenCheckRoutes);
 
 // Set general application use routes
-// app.use('/api', jwt(jwtParams), userOpsRoutes);
 app.use('/api', userOpsRoutes);
 
 let port = process.env.PORT || 3000;
