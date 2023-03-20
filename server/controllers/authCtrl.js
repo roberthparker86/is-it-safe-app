@@ -70,10 +70,12 @@ exports.signin = (req, res) => {
       });
     }
 
+    // TODO: name cookie so we can see it in browser
     const token = jwt.sign({
+      name: 'SESSION_COOKIE',
       _id: user._id 
     }, process.env.JWT_SECRET, {
-      expiresIn: '5 minutes' 
+      expiresIn: '1 hour' 
     });
 
     const userReturnData = {
@@ -85,14 +87,13 @@ exports.signin = (req, res) => {
       timestamp: dayjs()
     };
 
-    console.log(token);
-
     if (token) {
       return  res
         .status(201)
         .cookie('token', token, { 
           httpOnly: true,
-          secure: true 
+          secure: true,
+          sameSite: 'strict'
         })
         .json({
           message: 'Auth Cookie created!',

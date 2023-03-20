@@ -3,15 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "proxy": "http://localhost:8080",
-  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.27.2",
+    "axios": "^0.26.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.6",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dayjs": "^1.11.5",
     "dotenv": "^10.0.0",
@@ -37,8 +36,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
-    "build": "set BUILD_PATH=./server/public&& react-scripts --openssl-legacy-provider build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "compile:sass": "node-sass src/sass/main.scss public/styles/styles.css -w"

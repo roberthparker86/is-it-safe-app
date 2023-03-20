@@ -2,7 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
+const path = require('path');
+// const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
@@ -38,15 +39,25 @@ mongoose
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-
-// const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
 
 // Set home route
 app.get('/', (req, res) => {
-  res.send('Client successfully connected. WOOT');
+  const options = {
+    root: path.join(__dirname, 'public')
+  };
+
+  res.sendFile('index.html', options, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'Apologies old sport. Something seems to be amiss.'
+      })
+    }
+  });
 });
 
 // Set api auth routes
