@@ -27,7 +27,9 @@ a {
 }
 
 input,
-button {
+button,
+select,
+option {
   border-radius: 0.25rem;
   outline: none;
 }
@@ -38,7 +40,9 @@ button {
   padding: 0.5rem;
 }
 
-input {
+input,
+select,
+option {
   background-color: $color-dark-grey;
   border: 2px solid $color-light-grey;
   color: $color-light-grey;
