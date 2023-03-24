@@ -95,37 +95,68 @@ exports.signin = (req, res) => {
           secure: true,
           sameSite: 'strict'
         })
+        .cookie('user', user._id, {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'strict',
+          expires: new Date(Date.now() + 3600000)
+        })
         .json({
           message: 'Auth Cookie created!',
-          user: userReturnData
+          user: userReturnData,
+          success: true
         });
     }
 
     return res
       .status(500)
-      .json({ message: 'Auth Cookie not created!' });
+      .json({ 
+        message: 'Auth Cookie not created!', 
+        success: false 
+      });
   });
 };
 
+exports.checkToken = (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) return res
+    .status(401)
+    .json({ success: false })
+    .send({ error: 'Access denied. No token provided.' });
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ success: false })
+      .send({ error: 'Access denied. Invalid token.' });
+  }  
+}
+
 exports.signout = (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('user');
   res.status(200).json({
     message: 'You are now signed out.'
   });
 };
 
 exports.getUser = (req, res) => {
-  const _id = req.query._id,
+  // TODO check account id
+  const _ID = req.cookies.user,
     token = req.cookies.token;
 
-  console.log(req.cookies, req.cookie);
-
   if (!token) return res.status(401).send({ error: 'Access denied. No token provided.' });
+
+  if (!_ID) return res.status(401).send({ error: 'No user id cookie.' });
 
   try {
     jwt.verify(token, process.env.JWT_SECRET);
 
-    User.findById({ _id }).exec((err, user) => {
+    User.findById({ _id: _ID }).exec((err, user) => {
       if (!user) {
         return res.status(404).json({
           error: 'User not found'
@@ -146,7 +177,7 @@ exports.getUser = (req, res) => {
         freezer: user.freezer
       };
   
-      return res.status(200).json({ data: userData });
+      return res.status(200).json({ user: userData });
     });
   } catch (err) {
     return res.status(401).send({ error: 'Access denied. Invalid token.' });
