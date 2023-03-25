@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
-import AppRouter from './routers/AppRouter';
+import App from './App';
 
 const store = configureStore();
 const jsx = (
   <Provider store={store}>
-    <AppRouter />
+    <App />
   </Provider>
 );
 

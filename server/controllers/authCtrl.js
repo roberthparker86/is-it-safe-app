@@ -3,7 +3,6 @@ const User = require('../models/userData');
 const jwt = require('jsonwebtoken');
 // const expressJwt = require('express-jwt');
 const dayjs = require('dayjs');
-const { use } = require('../routes/userAuthRoutes');
 
 // user signup
 exports.signup = (req, res) => {

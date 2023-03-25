@@ -7,10 +7,10 @@ import dayjs from "dayjs";
  */
 export const setStatus = (time) => {
 
-  if (time <= 150) {
+  if (time <= 0) {
     return 'bad';
   }
-  if (time < 400) {
+  if (time < 48) {
     return 'warning';
   } 
   return 'good';
@@ -23,12 +23,14 @@ export const setStatus = (time) => {
  * @returns {Number} - Int representing hours
  */
 export const getRemainingTime = (start, expire) => {
-  console.log({ start, expire, toReturn: dayjs(start).diff(expire, 'hours') });
-  return dayjs(start).diff(expire, 'hour');
+  console.log({ start, expire, toReturn: dayjs(expire).diff(start, 'hours') });
+  return dayjs(expire).diff(start, 'hour');
 };
 
 export const sortByTimeLeft = (objA, objB) => {
   const aTimeRemain = getRemainingTime(objA.startTime, objA.expireTime),
     bTimeRemain = getRemainingTime(objB.startTime, objB.expireTime);
+
+  console.log({ aTimeRemain, bTimeRemain });
   return aTimeRemain - bTimeRemain >= 0 ? 1 : -1;
 };

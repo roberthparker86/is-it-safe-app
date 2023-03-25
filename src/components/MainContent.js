@@ -9,7 +9,6 @@ import Input from './Input';
 import { ItemCard } from './ItemCard';
 import { CompartmentToggle } from './CompartmentToggle';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import {
@@ -19,24 +18,25 @@ import {
 } from '../controllers/controllers';
 
 const MainContent = props => {
-  const history = useHistory();
   const dispatch = useDispatch();
   //stores
   const authStore = useSelector(store => store.auth);
   const userStore = useSelector(store => store.user);
   // Memoized variables
   const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
-  const currentLocation = useMemo(() => history.location.pathname, [history]);
   const user = useMemo(() => userStore, [userStore]);
 
   // State
   const [isClicked, setClick] = useState(false);
-  const [inputValue, updateInputValue] = useState({
+
+  const inputDefaultValue = {
     foodName: '',
     startDate: dayjs().format('YYYY-MM-DD'),
     expiryDate: '',
     compartment: ''
-  });
+  };
+  const [inputValue, updateInputValue] = useState(inputDefaultValue);
+
   const [isReadyPost, setIsReadyPost] = useState(false);
   const [displayedCompartment, setDisplayedCompartment] = useState('refrigerator');
 
@@ -86,8 +86,6 @@ const MainContent = props => {
       freezer.sort((a, b) => sortByTimeLeft(a, b));
       refrigerator.sort((a, b) => sortByTimeLeft(a, b));
 
-      console.log({ freezer, refrigerator });
-
       dispatch({
         type: 'UPDATE_FOOD',
         freezer,
@@ -96,21 +94,15 @@ const MainContent = props => {
 
       setIsReadyPost(false);
       setClick(false);
-      updateInputValue({});
+      updateInputValue(inputDefaultValue);
     } catch (err) {
       console.log({ err });
       setIsReadyPost(false);
       setClick(false);
-      updateInputValue({});
+      updateInputValue(inputDefaultValue);
     }
+  // eslint-disable-next-line
   }, [setIsReadyPost, dispatch]);
-
-  // Use Effects
-  useEffect(() => {
-    if (currentLocation !== '/') {
-      !isAuthenticated && history.replace('/');
-    }
-  }, [currentLocation, isAuthenticated, history]);
 
   useEffect(() => {
     if (isReadyPost) {
@@ -177,15 +169,12 @@ const MainContent = props => {
           onChange={handleUpdate}
         />
 
-        <Input
-          className="add-food__input-container"
-          labelText="Compartment"
-          id="compartment"
-          name="compartment"
-          inputValue={compartment}
-          placeholder="Regriferator or freezer?"
-          onChange={handleUpdate}
-        />
+        <label htmlFor="compartment">Refrigerator or freezer?</label>
+
+        <select name="compartment" className="add-food__select" id="compartment">
+          <option value="refrigerator">Refrigerator</option>
+          <option value="freezer">Freezer</option>
+        </select>
 
         <button
           type="submit"
