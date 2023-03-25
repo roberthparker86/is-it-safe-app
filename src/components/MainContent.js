@@ -6,6 +6,7 @@ import React, {
 } from 'react';
 import Form from './Form';
 import Input from './Input';
+import SelectInput from './SelectInput';
 import { ItemCard } from './ItemCard';
 import { CompartmentToggle } from './CompartmentToggle';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,11 +21,7 @@ import {
 const MainContent = props => {
   const dispatch = useDispatch();
   //stores
-  const authStore = useSelector(store => store.auth);
   const userStore = useSelector(store => store.user);
-  // Memoized variables
-  const isAuthenticated = useMemo(() => authStore.isAuthenticated, [authStore]);
-  const user = useMemo(() => userStore, [userStore]);
 
   // State
   const [isClicked, setClick] = useState(false);
@@ -32,15 +29,36 @@ const MainContent = props => {
   const inputDefaultValue = {
     foodName: '',
     startDate: dayjs().format('YYYY-MM-DD'),
-    expiryDate: '',
-    compartment: ''
+    expiryDate: ''
   };
-  const [inputValue, updateInputValue] = useState(inputDefaultValue);
+  const [inputValue, updateInputValue] = useState(inputDefaultValue),
+    [selectValue, updateSelectValue] = useState('');
 
   const [isReadyPost, setIsReadyPost] = useState(false);
   const [displayedCompartment, setDisplayedCompartment] = useState('refrigerator');
 
-  const { foodName, startDate, expiryDate, compartment } = inputValue;
+  // Memoized variables
+  const user = useMemo(() => userStore, [userStore]),
+    dataForPost = useMemo(() => ({
+      compartment: selectValue.toLowerCase(),
+      ...inputValue
+    }),[selectValue, inputValue ]);
+
+  const getUser = async () => {
+    const apiUrl = 'http://localhost:8080/api/';
+
+    const { data } = await axios.get(`${apiUrl}user`);
+
+    if (data) {
+      dispatch({
+        type: 'LOGIN',
+        isAuthenticated: true,
+        user: data.user
+      });
+    }  
+  };
+
+  const { foodName, startDate, expiryDate } = inputValue;
 
   const handleUpdate = e => {
     const { name, value } = e.target;
@@ -106,26 +124,19 @@ const MainContent = props => {
 
   useEffect(() => {
     if (isReadyPost) {
-      const dataToPost = {
-        id: user.id,
-        name: foodName,
-        startTime: dayjs(startDate).format(),
-        expireTime: dayjs(expiryDate).format(),
-        compartment: compartment.toLowerCase()
-      };
-
-      postData(dataToPost);      
+      console.log('%cData To Post', 'color: aquamarine', dataForPost, typeof dataForPost.expiryDate, typeof dataForPost.startDate );
+      postData(dataForPost);      
     }
   }, [
     isReadyPost,
     inputValue,
-    compartment,
-    user.id,
-    startDate,
-    foodName,
-    expiryDate,
-    postData
+    dataForPost,
+    selectValue,
+    postData,
+    user
   ]);
+
+  useEffect(() => getUser(), []);
 
   return (
     <div className="container container--main-content">
@@ -169,12 +180,7 @@ const MainContent = props => {
           onChange={handleUpdate}
         />
 
-        <label htmlFor="compartment">Refrigerator or freezer?</label>
-
-        <select name="compartment" className="add-food__select" id="compartment">
-          <option value="refrigerator">Refrigerator</option>
-          <option value="freezer">Freezer</option>
-        </select>
+        <SelectInput updateSelectValue={updateSelectValue} selectValue={selectValue} />
 
         <button
           type="submit"

@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { sortByTimeLeft } from '../controllers/controllers';
 
 const LoginPage = props => {

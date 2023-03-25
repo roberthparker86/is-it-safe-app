@@ -1,21 +1,16 @@
-import React, { 
-  // useMemo, 
-  useState, 
-  // useEffect 
-} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Header from './Header';
 import Form from './Form';
 import Input from './Input';
 import Button from './Button';
-import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-const LoginPage = props => {
-  const dispatch = useDispatch();
+const SignUpPage = props => {
   const history = useHistory();
 
-  const [loginForm, updateLoginForm] = useState({
+  const [ loginForm, updateLoginForm ] = useState({
+    firstName: '',
     email: '',
     password: ''
   });
@@ -26,22 +21,21 @@ const LoginPage = props => {
   };
 
   const apiUrl = 'http://localhost:8080/api/';
-  const submitForm = async (email, password) => {
+  const submitForm = async (firstName, email, password) => {
     const credentials = {
+      firstName,
       email: email.toLowerCase(),
       password
     };
 
-    try {
-      const { data } = await axios.post(`${apiUrl}signup`, credentials);
 
-      if (data) {
-        dispatch({
-          type: 'LOGIN',
-          isAuthenticated: true,
-          user: data.user
-        });
-        history.push('/dashboard');
+
+    try {
+      const response = await axios.post(`${apiUrl}signup`, credentials);
+
+      if (response) {
+        console.log(response);
+        history.push('/');
       }
     } catch (err) {
       console.log(err);
@@ -59,6 +53,13 @@ const LoginPage = props => {
         <Form className="login-form">
           <Input
             className="login-form__input"
+            id="firstName"
+            inputValue={loginForm.firstName}
+            onChange={handleLoginChange}
+          />
+          
+          <Input
+            className="login-form__input"
             id="email"
             inputValue={loginForm.email}
             onChange={handleLoginChange}
@@ -74,7 +75,7 @@ const LoginPage = props => {
           <Button
             className="login-form__btn"
             onClick={e => {
-              submitForm(loginForm.email, loginForm.password);
+              submitForm(loginForm.firstName, loginForm.email, loginForm.password);
               e.preventDefault();
             }}>
             Sign Up
@@ -85,4 +86,4 @@ const LoginPage = props => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

@@ -5,8 +5,7 @@ const {
   signin,
   signout,
   getUser,
-  checkToken,
-  requireSignin
+  checkToken
 } = require('../controllers/authCtrl');
 
 const { runValidation } = require('../validators');

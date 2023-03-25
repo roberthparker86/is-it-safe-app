@@ -1,8 +1,38 @@
+const jwt = require('jsonwebtoken');
 const Food = require('../models/foodData');
 const User = require('../models/userData');
 
 exports.addFood = async (req, res) => {
-  const { id, name, startTime, expireTime, compartment } = req.body;
+  const { foodName: name, startDate: startTime, expiryDate: expireTime, compartment } = req.body,
+    token = req.cookies.token,
+    _ID = req.cookies.user;
+
+  console.log(req.body);
+
+  if (!token) return res
+    .status(401)
+    .json({ 
+      success: false,
+      error: 'Access denied. No token provided.'
+    });
+
+  if (!_ID) return res
+    .status(404)
+    .json({ 
+      success: false,
+      error: 'No ID found.'
+    });
+  
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ 
+        success: false,
+        error: 'Access denied. Invalid token.'
+      });
+  } 
 
   const food = new Food({
     name,
@@ -14,7 +44,7 @@ exports.addFood = async (req, res) => {
     return res.status(404).json({ message: 'Food not found' });
   }
 
-  const user = await User.findById({ _id: id });
+  const user = await User.findById({ _id: _ID });
 
   if (compartment === 'refrigerator') {
     user.refrigerator.push(food);
@@ -39,7 +69,22 @@ exports.addFood = async (req, res) => {
 };
 
 exports.deleteFood = async (req, res) => {
-  const { userId, foodId, compartment } = req.body;
+  const { userId, foodId, compartment } = req.body,
+    token = req.cookies.token;
+
+  if (!token) return res
+    .status(401)
+    .json({ success: false })
+    .send({ error: 'Access denied. No token provided.' });
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ success: false })
+      .send({ error: 'Access denied. Invalid token.' });
+  } 
 
   const user = await User.findById({
     _id: userId
@@ -83,7 +128,25 @@ exports.deleteFood = async (req, res) => {
 };
 
 exports.getFood = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.body,
+    token = req.cookies.token,
+    _ID = req.cookies.user;
+
+  console.log(_ID);
+
+  if (!token) return res
+    .status(401)
+    .json({ success: false })
+    .send({ error: 'Access denied. No token provided.' });
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res
+      .status(401)
+      .json({ success: false })
+      .send({ error: 'Access denied. Invalid token.' });
+  } 
 
   const user = await User.findById({ _id: id });
 

@@ -1,7 +1,5 @@
 const User = require('../models/userData');
-// const shortId = require('shortid');
 const jwt = require('jsonwebtoken');
-// const expressJwt = require('express-jwt');
 const dayjs = require('dayjs');
 
 // user signup
